@@ -53,10 +53,10 @@
     }
 
     .card {
-      width: 80vw; /* Адаптивная ширина */
-      max-width: 400px; /* Максимальная ширина для ПК */
-      height: 60vh; /* Адаптивная высота */
-      max-height: 400px; /* Максимальная высота для ПК */
+      width: 70vw; /* Уменьшенная ширина */
+      max-width: 350px; /* Уменьшенный максимум для ПК */
+      height: 50vh; /* Уменьшенная высота */
+      max-height: 350px; /* Уменьшенный максимум для ПК */
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
       border-radius: 20px;
@@ -66,7 +66,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 4vh; /* Адаптивное расстояние между кнопками */
+      gap: 3vh; /* Уменьшенное расстояние между кнопками */
       transition: all 0.3s ease;
       animation: floatCard 8s ease-in-out infinite;
     }
@@ -86,7 +86,7 @@
     }
 
     .btn {
-      padding: 2vh 5vw;
+      padding: 1.5vh 4vw;
       background: rgba(0, 191, 255, 0.15);
       border: 1px solid rgba(0, 191, 255, 0.4);
       border-radius: 30px;
@@ -94,7 +94,7 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: bold;
-      font-size: 3.5vw; /* Адаптивный размер шрифта */
+      font-size: 3vw; /* Уменьшенный размер шрифта */
       cursor: pointer;
       transition: 0.3s;
       backdrop-filter: blur(10px);
@@ -131,11 +131,11 @@
 
     .text-overlay {
       position: absolute;
-      top: -80px;
+      top: -60px;
       left: 50%;
       transform: translateX(-50%);
       color: rgba(255, 215, 0, 0.9);
-      font-size: 24px;
+      font-size: 20px;
       font-weight: bold;
       text-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
       opacity: 0;
@@ -146,7 +146,7 @@
 
     .profile-overlay {
       position: absolute;
-      top: -150px;
+      top: -120px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -158,17 +158,27 @@
     }
 
     .profile-avatar {
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 215, 0, 0.8);
+      border: 2px solid transparent; /* Базовая обводка */
       box-shadow: 0 0 15px rgba(255, 69, 0, 0.8);
       object-fit: cover;
     }
 
+    .profile-avatar.non-premium {
+      border-image: linear-gradient(45deg, #888, #ccc) 1;
+      border-image-slice: 1;
+    }
+
+    .profile-avatar.premium {
+      border-image: linear-gradient(45deg, #8b00ff, #ff00ff) 1;
+      border-image-slice: 1;
+    }
+
     .profile-username {
       color: rgba(255, 215, 0, 0.9);
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
       text-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
       margin-top: 10px;
@@ -185,32 +195,32 @@
     /* Медиа-запросы для мобильных устройств */
     @media (max-width: 600px) {
       .card {
-        width: 90vw;
-        height: 70vh;
-        max-height: 500px;
+        width: 85vw;
+        height: 60vh;
+        max-height: 400px;
       }
 
       .btn {
-        padding: 3vh 8vw;
-        font-size: 5vw;
+        padding: 2vh 6vw;
+        font-size: 4.5vw;
       }
 
       .text-overlay {
-        font-size: 18px;
-        top: -60px;
+        font-size: 16px;
+        top: -50px;
       }
 
       .profile-overlay {
-        top: -120px;
+        top: -100px;
       }
 
       .profile-avatar {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
       }
 
       .profile-username {
-        font-size: 16px;
+        font-size: 14px;
       }
     }
   </style>
@@ -231,7 +241,8 @@
     // Получение данных пользователя из Telegram
     const user = window.Telegram.WebApp.initDataUnsafe.user || {};
     const username = user.username || user.first_name || 'Аноним';
-    const photoUrl = user.photo_url || 'https://via.placeholder.com/80'; // Запасное изображение, если аватарка отсутствует
+    const photoUrl = user.photo_url || 'https://via.placeholder.com/80';
+    const isPremium = user.is_premium || false;
 
     // Существующие огоньки (fireflies)
     const fireflyCount = 40;
@@ -385,6 +396,7 @@
 
       const avatar = document.createElement('img');
       avatar.classList.add('profile-avatar');
+      avatar.classList.add(isPremium ? 'premium' : 'non-premium');
       avatar.src = photoUrl;
       profile.appendChild(avatar);
 
