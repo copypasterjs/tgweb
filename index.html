@@ -8,7 +8,6 @@
   <script>
     const tg = window.Telegram.WebApp;
     tg.expand(); // делает окно полноэкранным в Telegram
-reddit
   </script>
   <style>
     html, body {
@@ -54,10 +53,10 @@ reddit
     }
 
     .card {
-      width: 70vw; /* Уменьшенная ширина */
-      max-width: 350px; /* Уменьшенный максимум для ПК */
-      height: 50vh; /* У]: Уменьшенная высота */
-      max-height: 350px; /* Уменьшенный максимум для ПК */
+      width: 70vw;
+      max-width: 350px;
+      height: 50vh;
+      max-height: 350px;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
       border-radius: 20px;
@@ -67,7 +66,7 @@ reddit
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 3vh; /* Уменьшенное расстояние между кнопками */
+      gap: 3vh;
       transition: all 0.3s ease;
       animation: floatCard 8s ease-in-out infinite;
     }
@@ -95,7 +94,7 @@ reddit
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: bold;
-      font-size: 3vw; /* Уменьшенный размер шрифта */
+      font-size: 3vw;
       cursor: pointer;
       transition: 0.3s;
       backdrop-filter: blur(10px);
@@ -147,7 +146,7 @@ reddit
 
     .profile-overlay {
       position: absolute;
-      top: -120px;
+      top: -100px; /* Смещаем ниже */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -162,33 +161,15 @@ reddit
       width: 70px;
       height: 70px;
       border-radius: 50%;
-      box-shadow: 0 0 15px rgba(255, 69, 0, 0.8);
       object-fit: cover;
-      position: relative;
     }
 
-    .profile-avatar.non-premium::before {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border-radius: 50%;
-      background: linear-gradient(45deg, #888, #ccc);
-      z-index: -1;
+    .profile-avatar.non-premium {
+      box-shadow: 0 0 10px 4px rgba(128, 128, 128, 0.7); /* Серый блюр */
     }
 
-    .profile-avatar.premium::before {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border-radius: 50%;
-      background: linear-gradient(45deg, #8b00ff, #ff00ff);
-      z-index: -1;
+    .profile-avatar.premium {
+      box-shadow: 0 0 10px 4px rgba(128, 0, 255, 0.7); /* Фиолетовый блюр */
     }
 
     .profile-username {
@@ -226,7 +207,7 @@ reddit
       }
 
       .profile-overlay {
-        top: -100px;
+        top: -80px; /* Смещаем ниже для мобильных */
       }
 
       .profile-avatar {
@@ -251,7 +232,7 @@ reddit
     </div>
   </div>
 
-  <!-- Скри季節т с огоньками и анимацией -->
+  <!-- Скрипт с огоньками и анимацией -->
   <script>
     // Получение данных пользователя из Telegram
     const user = window.Telegram.WebApp.initDataUnsafe.user || {};
