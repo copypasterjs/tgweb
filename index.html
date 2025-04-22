@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Bedrock Project</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .firefly {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: rgba(0, 191, 255, 0.8);
+      border-radius: 50%;
+      box-shadow: 0 0 15px 5px rgba(0, 191, 255, 0.5);
+      animation: blink 2s infinite ease-in-out alternate;
+      z-index: 0;
+    }
+
+    @keyframes blink {
+      0% {
+        opacity: 0.2;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    .card {
+      width: 300px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 174, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+      animation: floatCard 8s ease-in-out infinite;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 50px rgba(0, 191, 255, 0.4);
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    @keyframes floatCard {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-10px) scale(1.02);
+      }
+    }
+
+    .btn {
+      padding: 10px 25px;
+      background: rgba(0, 191, 255, 0.15);
+      border: 1px solid rgba(0, 191, 255, 0.4);
+      border-radius: 30px;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn:hover {
+      background: rgba(0, 191, 255, 0.4);
+      box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Центральная карточка -->
+  <div class="container">
+    <div class="card">
+      <button class="btn">Bedrock Project</button>
+    </div>
+  </div>
+
+  <!-- Скрипт с огоньками -->
+  <script>
+    const fireflyCount = 40;
+    for (let i = 0; i < fireflyCount; i++) {
+      const firefly = document.createElement('div');
+      firefly.classList.add('firefly');
+
+      firefly.style.left = Math.random() * 100 + 'vw';
+      firefly.style.top = Math.random() * 100 + 'vh';
+
+      const moveX = (Math.random() - 0.5) * 100;
+      const moveY = (Math.random() - 0.5) * 100;
+      const duration = 10 + Math.random() * 20;
+
+      firefly.animate([
+        { transform: 'translate(0, 0)' },
+        { transform: `translate(${moveX}px, ${moveY}px)` }
+      ], {
+        duration: duration * 1000,
+        direction: 'alternate',
+        iterations: Infinity,
+        easing: 'ease-in-out'
+      });
+
+      document.body.appendChild(firefly);
+    }
+  </script>
+
+</body>
+</html>
