@@ -8,6 +8,7 @@
   <script>
     const tg = window.Telegram.WebApp;
     tg.expand(); // делает окно полноэкранным в Telegram
+reddit
   </script>
   <style>
     html, body {
@@ -55,7 +56,7 @@
     .card {
       width: 70vw; /* Уменьшенная ширина */
       max-width: 350px; /* Уменьшенный максимум для ПК */
-      height: 50vh; /* Уменьшенная высота */
+      height: 50vh; /* У]: Уменьшенная высота */
       max-height: 350px; /* Уменьшенный максимум для ПК */
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
@@ -161,21 +162,33 @@
       width: 70px;
       height: 70px;
       border-radius: 50%;
-      border: 2px solid transparent;
       box-shadow: 0 0 15px rgba(255, 69, 0, 0.8);
       object-fit: cover;
+      position: relative;
     }
 
-    .profile-avatar.non-premium {
-      border: 2px solid;
-      border-image: linear-gradient(45deg, #888, #ccc) 1;
-      border-image-slice: 1;
+    .profile-avatar.non-premium::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #888, #ccc);
+      z-index: -1;
     }
 
-    .profile-avatar.premium {
-      border: 2px solid;
-      border-image: linear-gradient(45deg, #8b00ff, #ff00ff) 1;
-      border-image-slice: 1;
+    .profile-avatar.premium::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #8b00ff, #ff00ff);
+      z-index: -1;
     }
 
     .profile-username {
@@ -238,7 +251,7 @@
     </div>
   </div>
 
-  <!-- Скрипт с огоньками и анимацией -->
+  <!-- Скри季節т с огоньками и анимацией -->
   <script>
     // Получение данных пользователя из Telegram
     const user = window.Telegram.WebApp.initDataUnsafe.user || {};
