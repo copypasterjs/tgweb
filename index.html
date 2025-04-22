@@ -49,7 +49,9 @@
       z-index: 2;
       width: 100%;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px; /* Отступ между карточкой и мини-квадратиками */
     }
 
     .card {
@@ -69,7 +71,6 @@
       gap: 3vh;
       transition: all 0.3s ease;
       animation: floatCard 8s ease-in-out infinite;
-      padding-bottom: 20px; /* Добавляем отступ снизу для мини-квадратиков */
     }
 
     .card:hover {
@@ -111,7 +112,6 @@
     .mini-square-container {
       display: flex;
       gap: 10px;
-      margin-top: auto; /* Помещает контейнер внизу карточки */
     }
 
     .mini-square {
@@ -220,21 +220,21 @@
 </head>
 <body>
 
-  <!-- Центральная карточка -->
+  <!-- Центральная карточка и мини-квадратики -->
   <div class="container">
     <div class="card">
       <button class="btn" onclick="createFireAnimation()">Bedrock Project</button>
       <button class="btn" onclick="createProfileAnimation()">Профиль</button>
-      <div class="mini-square-container">
-        <div class="mini-square">
-          <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/discord-512.png" alt="Discord">
-        </div>
-        <div class="mini-square">
-          <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/telegram-512.png" alt="Telegram">
-        </div>
-        <div class="mini-square">
-          <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/tiktok-512.png" alt="TikTok">
-        </div>
+    </div>
+    <div class="mini-square-container">
+      <div class="mini-square">
+        <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/discord-512.png" alt="Discord">
+      </div>
+      <div class="mini-square">
+        <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/telegram-512.png" alt="Telegram">
+      </div>
+      <div class="mini-square">
+        <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/tiktok-512.png" alt="TikTok">
       </div>
     </div>
   </div>
