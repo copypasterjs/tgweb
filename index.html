@@ -90,11 +90,24 @@
       cursor: pointer;
       transition: 0.3s;
       backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 3;
     }
 
     .btn:hover {
       background: rgba(0, 191, 255, 0.4);
       box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+    }
+
+    .fire-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: radial-gradient(circle, rgba(255, 165, 0, 0.9) 20%, rgba(255, 69, 0, 0.7) 80%);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+      pointer-events: none;
+      z-index: 2;
     }
   </style>
 </head>
@@ -103,12 +116,13 @@
   <!-- Центральная карточка -->
   <div class="container">
     <div class="card">
-      <button class="btn">Bedrock Project</button>
+      <button class="btn" onclick="createFireAnimation()">Bedrock Project</button>
     </div>
   </div>
 
-  <!-- Скрипт с огоньками -->
+  <!-- Скрипт с огоньками и анимацией огней -->
   <script>
+    // Существующие огоньки (fireflies)
     const fireflyCount = 40;
     for (let i = 0; i < fireflyCount; i++) {
       const firefly = document.createElement('div');
@@ -132,6 +146,46 @@
       });
 
       document.body.appendChild(firefly);
+    }
+
+    // Анимация огней при нажатии на кнопку
+    function createFireAnimation() {
+      const btn = document.querySelector('.btn');
+      const rect = btn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const particleCount = 20;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('fire-particle');
+        document.body.appendChild(particle);
+
+        // Начальная позиция частицы (в центре кнопки)
+        particle.style.left = centerX + 'px';
+        particle.style.top = centerY + 'px';
+
+        // Случайное направление и расстояние
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 50 + Math.random() * 100; // Расстояние от 50 до 150px
+        const endX = Math.cos(angle) * distance;
+        const endY = Math.sin(angle) * distance;
+
+        // Анимация движения и исчезновения
+        particle.animate([
+          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+          { transform: `translate(${endX}px, ${endY}px) scale(0.5)`, opacity: 0 }
+        ], {
+          duration: 600 + Math.random() * 400, // Длительность от 600 до 1000ms
+          easing: 'ease-out',
+          iterations: 1
+        });
+
+        // Удаление частицы после завершения анимации
+        setTimeout(() => {
+          particle.remove();
+        }, 1000);
+      }
     }
   </script>
 
