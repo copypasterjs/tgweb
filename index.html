@@ -49,8 +49,8 @@
     }
 
     .card {
-      width: 300px;
-      height: 200px;
+      width: 400px; /* Увеличенный размер */
+      height: 300px; /* Увеличенный размер */
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
       border-radius: 20px;
@@ -60,6 +60,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      gap: 20px; /* Расстояние между кнопками */
       transition: all 0.3s ease;
       animation: floatCard 8s ease-in-out infinite;
     }
@@ -109,6 +110,39 @@
       pointer-events: none;
       z-index: 2;
     }
+
+    .phoenix-particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.9) 20%, rgba(255, 69, 0, 0.7) 80%);
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .text-overlay {
+      position: absolute;
+      top: -80px; /* Над карточкой */
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 215, 0, 0.9);
+      font-size: 24px;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+      white-space: nowrap;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translate(-50%, 0); }
+      20% { opacity: 1; transform: translate(-50%, -10px); }
+      80% { opacity: 1; transform: translate(-50%, -10px); }
+      100% { opacity: 0; transform: translate(-50%, 0); }
+    }
   </style>
 </head>
 <body>
@@ -117,10 +151,11 @@
   <div class="container">
     <div class="card">
       <button class="btn" onclick="createFireAnimation()">Bedrock Project</button>
+      <button class="btn" onclick="createPhoenixAnimation()">PhoenixPE</button>
     </div>
   </div>
 
-  <!-- Скрипт с огоньками и анимацией огней -->
+  <!-- Скрипт с огоньками и анимацией -->
   <script>
     // Существующие огоньки (fireflies)
     const fireflyCount = 40;
@@ -132,7 +167,7 @@
       firefly.style.top = Math.random() * 100 + 'vh';
 
       const moveX = (Math.random() - 0.5) * 100;
-      const moveY = (Math.random() - 0.5) * 100;
+      const moveY = (String.prototype.startsWith.call) * 100;
       const duration = 10 + Math.random() * 20;
 
       firefly.animate([
@@ -148,7 +183,7 @@
       document.body.appendChild(firefly);
     }
 
-    // Анимация огней при нажатии на кнопку
+    // Анимация для Bedrock Project
     function createFireAnimation() {
       const btn = document.querySelector('.btn');
       const rect = btn.getBoundingClientRect();
@@ -161,31 +196,78 @@
         particle.classList.add('fire-particle');
         document.body.appendChild(particle);
 
-        // Начальная позиция частицы (в центре кнопки)
         particle.style.left = centerX + 'px';
         particle.style.top = centerY + 'px';
 
-        // Случайное направление и расстояние
         const angle = Math.random() * 2 * Math.PI;
-        const distance = 50 + Math.random() * 100; // Расстояние от 50 до 150px
+        const distance = 50 + Math.random() * 100;
         const endX = Math.cos(angle) * distance;
         const endY = Math.sin(angle) * distance;
 
-        // Анимация движения и исчезновения
         particle.animate([
           { transform: 'translate(0, 0) scale(1)', opacity: 1 },
           { transform: `translate(${endX}px, ${endY}px) scale(0.5)`, opacity: 0 }
         ], {
-          duration: 600 + Math.random() * 400, // Длительность от 600 до 1000ms
+          duration: 600 + Math.random() * 400,
           easing: 'ease-out',
           iterations: 1
         });
 
-        // Удаление частицы после завершения анимации
         setTimeout(() => {
           particle.remove();
         }, 1000);
       }
+    }
+
+    // Анимация для PhoenixPE
+    function createPhoenixAnimation() {
+      const btn = document.querySelectorAll('.btn')[1]; // Вторая кнопка
+      const rect = btn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const particleCount = 30;
+
+      // Создание частиц
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('phoenix-particle');
+        document.body.appendChild(particle);
+
+        particle.style.left = centerX + 'px';
+        particle.style.top = centerY + 'px';
+
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 70 + Math.random() * 120;
+        const endX = Math.cos(angle) * distance;
+        const endY = Math.sin(angle) * distance;
+
+        particle.animate([
+          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+          { transform: `translate(${endX}px, ${endY}px) scale(0.3)`, opacity: 0 }
+        ], {
+          duration: 800 + Math.random() * 500,
+          easing: 'ease-out',
+          iterations: 1
+        });
+
+        setTimeout(() => {
+          particle.remove();
+        }, 1300);
+      }
+
+      // Создание текста
+      const text = document.createElement('div');
+      text.classList.add('text-overlay');
+      text.textContent = 'Фризер когда видеоролик?';
+      document.querySelector('.container').appendChild(text);
+
+      // Применение анимации к тексту
+      text.style.animation = 'fadeInOut 5s ease-in-out forwards';
+
+      // Удаление текста после анимации
+      setTimeout(() => {
+        text.remove();
+      }, 5000);
     }
   </script>
 
