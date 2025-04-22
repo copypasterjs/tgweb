@@ -107,46 +107,9 @@
       box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
     }
 
-    .fire-particle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: radial-gradient(circle, rgba(255, 165, 0, 0.9) 20%, rgba(255, 69, 0, 0.7) 80%);
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .phoenix-particle {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: radial-gradient(circle, rgba(255, 215, 0, 0.9) 20%, rgba(255, 69, 0, 0.7) 80%);
-      border-radius: 50%;
-      box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .text-overlay {
-      position: absolute;
-      top: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255, 215, 0, 0.9);
-      font-size: 20px;
-      font-weight: bold;
-      text-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 3;
-      white-space: nowrap;
-    }
-
     .profile-overlay {
       position: absolute;
-      top: -100px; /* Смещаем ниже */
+      top: -100px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -201,13 +164,8 @@
         font-size: 4.5vw;
       }
 
-      .text-overlay {
-        font-size: 16px;
-        top: -50px;
-      }
-
       .profile-overlay {
-        top: -80px; /* Смещаем ниже для мобильных */
+        top: -80px;
       }
 
       .profile-avatar {
@@ -227,7 +185,6 @@
   <div class="container">
     <div class="card">
       <button class="btn" onclick="createFireAnimation()">Bedrock Project</button>
-      <button class="btn" onclick="createPhoenixAnimation()">PhoenixPE</button>
       <button class="btn" onclick="createProfileAnimation()">Профиль</button>
     </div>
   </div>
@@ -266,125 +223,13 @@
       document.body.appendChild(firefly);
     }
 
-    // Анимация для Bedrock Project
+    // Анимация для Bedrock Project (без частиц)
     function createFireAnimation() {
-      const btn = document.querySelector('.btn');
-      const rect = btn.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const particleCount = 20;
-
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('fire-particle');
-        document.body.appendChild(particle);
-
-        particle.style.left = centerX + 'px';
-        particle.style.top = centerY + 'px';
-
-        const angle = Math.random() * 2 * Math.PI;
-        const distance = 50 + Math.random() * 100;
-        const endX = Math.cos(angle) * distance;
-        const endY = Math.sin(angle) * distance;
-
-        particle.animate([
-          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-          { transform: `translate(${endX}px, ${endY}px) scale(0.5)`, opacity: 0 }
-        ], {
-          duration: 600 + Math.random() * 400,
-          easing: 'ease-out',
-          iterations: 1
-        });
-
-        setTimeout(() => {
-          particle.remove();
-        }, 1000);
-      }
-    }
-
-    // Анимация для PhoenixPE
-    function createPhoenixAnimation() {
-      const btn = document.querySelectorAll('.btn')[1];
-      const rect = btn.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const particleCount = 30;
-
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('phoenix-particle');
-        document.body.appendChild(particle);
-
-        particle.style.left = centerX + 'px';
-        particle.style.top = centerY + 'px';
-
-        const angle = Math.random() * 2 * Math.PI;
-        const distance = 70 + Math.random() * 120;
-        const endX = Math.cos(angle) * distance;
-        const endY = Math.sin(angle) * distance;
-
-        particle.animate([
-          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-          { transform: `translate(${endX}px, ${endY}px) scale(0.3)`, opacity: 0 }
-        ], {
-          duration: 800 + Math.random() * 500,
-          easing: 'ease-out',
-          iterations: 1
-        });
-
-        setTimeout(() => {
-          particle.remove();
-        }, 1300);
-      }
-
-      const text = document.createElement('div');
-      text.classList.add('text-overlay');
-      text.textContent = 'Фризер когда видеоролик?';
-      document.querySelector('.container').appendChild(text);
-
-      text.style.animation = 'fadeInOut 5s ease-in-out forwards';
-
-      setTimeout(() => {
-        text.remove();
-      }, 5000);
+      // Пустая функция, но сохраняет возможность добавления анимации в будущем
     }
 
     // Анимация для Profile
     function createProfileAnimation() {
-      const btn = document.querySelectorAll('.btn')[2];
-      const rect = btn.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const particleCount = 25;
-
-      // Частицы
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('phoenix-particle');
-        document.body.appendChild(particle);
-
-        particle.style.left = centerX + 'px';
-        particle.style.top = centerY + 'px';
-
-        const angle = Math.random() * 2 * Math.PI;
-        const distance = 60 + Math.random() * 100;
-        const endX = Math.cos(angle) * distance;
-        const endY = Math.sin(angle) * distance;
-
-        particle.animate([
-          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-          { transform: `translate(${endX}px, ${endY}px) scale(0.4)`, opacity: 0 }
-        ], {
-          duration: 700 + Math.random() * 400,
-          easing: 'ease-out',
-          iterations: 1
-        });
-
-        setTimeout(() => {
-          particle.remove();
-        }, 1100);
-      }
-
       // Создание аватарки и имени
       const profile = document.createElement('div');
       profile.classList.add('profile-overlay');
