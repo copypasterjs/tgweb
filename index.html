@@ -69,6 +69,7 @@
       gap: 3vh;
       transition: all 0.3s ease;
       animation: floatCard 8s ease-in-out infinite;
+      padding-bottom: 20px; /* Добавляем отступ снизу для мини-квадратиков */
     }
 
     .card:hover {
@@ -105,6 +106,34 @@
     .btn:hover {
       background: rgba(0, 191, 255, 0.4);
       box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+    }
+
+    .mini-square-container {
+      display: flex;
+      gap: 10px;
+      margin-top: auto; /* Помещает контейнер внизу карточки */
+    }
+
+    .mini-square {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .mini-square:hover {
+      background: rgba(0, 191, 255, 0.3);
+      box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+    }
+
+    .mini-square img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
     }
 
     .profile-overlay {
@@ -176,6 +205,16 @@
       .profile-username {
         font-size: 14px;
       }
+
+      .mini-square {
+        width: 30px;
+        height: 30px;
+      }
+
+      .mini-square img {
+        width: 18px;
+        height: 18px;
+      }
     }
   </style>
 </head>
@@ -186,6 +225,17 @@
     <div class="card">
       <button class="btn" onclick="createFireAnimation()">Bedrock Project</button>
       <button class="btn" onclick="createProfileAnimation()">Профиль</button>
+      <div class="mini-square-container">
+        <div class="mini-square">
+          <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/discord-512.png" alt="Discord">
+        </div>
+        <div class="mini-square">
+          <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/telegram-512.png" alt="Telegram">
+        </div>
+        <div class="mini-square">
+          <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/tiktok-512.png" alt="TikTok">
+        </div>
+      </div>
     </div>
   </div>
 
