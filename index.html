@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bedrock Project</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
@@ -46,11 +47,16 @@
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 2;
+      width: 100%;
+      display: flex;
+      justify-content: center;
     }
 
     .card {
-      width: 400px; /* Увеличенный размер */
-      height: 300px; /* Увеличенный размер */
+      width: 80vw; /* Адаптивная ширина */
+      max-width: 400px; /* Максимальная ширина для ПК */
+      height: 60vh; /* Адаптивная высота */
+      max-height: 400px; /* Максимальная высота для ПК */
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
       border-radius: 20px;
@@ -60,7 +66,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 20px; /* Расстояние между кнопками */
+      gap: 4vh; /* Адаптивное расстояние между кнопками */
       transition: all 0.3s ease;
       animation: floatCard 8s ease-in-out infinite;
     }
@@ -80,7 +86,7 @@
     }
 
     .btn {
-      padding: 10px 25px;
+      padding: 2vh 5vw;
       background: rgba(0, 191, 255, 0.15);
       border: 1px solid rgba(0, 191, 255, 0.4);
       border-radius: 30px;
@@ -88,6 +94,7 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: bold;
+      font-size: 3.5vw; /* Адаптивный размер шрифта */
       cursor: pointer;
       transition: 0.3s;
       backdrop-filter: blur(10px);
@@ -124,7 +131,7 @@
 
     .text-overlay {
       position: absolute;
-      top: -80px; /* Над карточкой */
+      top: -80px;
       left: 50%;
       transform: translateX(-50%);
       color: rgba(255, 215, 0, 0.9);
@@ -137,11 +144,74 @@
       white-space: nowrap;
     }
 
+    .profile-overlay {
+      position: absolute;
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 215, 0, 0.8);
+      box-shadow: 0 0 15px rgba(255, 69, 0, 0.8);
+      object-fit: cover;
+    }
+
+    .profile-username {
+      color: rgba(255, 215, 0, 0.9);
+      font-size: 20px;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+      margin-top: 10px;
+      text-align: center;
+    }
+
     @keyframes fadeInOut {
       0% { opacity: 0; transform: translate(-50%, 0); }
       20% { opacity: 1; transform: translate(-50%, -10px); }
       80% { opacity: 1; transform: translate(-50%, -10px); }
       100% { opacity: 0; transform: translate(-50%, 0); }
+    }
+
+    /* Медиа-запросы для мобильных устройств */
+    @media (max-width: 600px) {
+      .card {
+        width: 90vw;
+        height: 70vh;
+        max-height: 500px;
+      }
+
+      .btn {
+        padding: 3vh 8vw;
+        font-size: 5vw;
+      }
+
+      .text-overlay {
+        font-size: 18px;
+        top: -60px;
+      }
+
+      .profile-overlay {
+        top: -120px;
+      }
+
+      .profile-avatar {
+        width: 60px;
+        height: 60px;
+      }
+
+      .profile-username {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
@@ -152,11 +222,17 @@
     <div class="card">
       <button class="btn" onclick="createFireAnimation()">Bedrock Project</button>
       <button class="btn" onclick="createPhoenixAnimation()">PhoenixPE</button>
+      <button class="btn" onclick="createProfileAnimation()">Профиль</button>
     </div>
   </div>
 
   <!-- Скрипт с огоньками и анимацией -->
   <script>
+    // Получение данных пользователя из Telegram
+    const user = window.Telegram.WebApp.initDataUnsafe.user || {};
+    const username = user.username || user.first_name || 'Аноним';
+    const photoUrl = user.photo_url || 'https://via.placeholder.com/80'; // Запасное изображение, если аватарка отсутствует
+
     // Существующие огоньки (fireflies)
     const fireflyCount = 40;
     for (let i = 0; i < fireflyCount; i++) {
@@ -167,7 +243,7 @@
       firefly.style.top = Math.random() * 100 + 'vh';
 
       const moveX = (Math.random() - 0.5) * 100;
-      const moveY = (String.prototype.startsWith.call) * 100;
+      const moveY = (Math.random() - 0.5) * 100;
       const duration = 10 + Math.random() * 20;
 
       firefly.animate([
@@ -221,13 +297,12 @@
 
     // Анимация для PhoenixPE
     function createPhoenixAnimation() {
-      const btn = document.querySelectorAll('.btn')[1]; // Вторая кнопка
+      const btn = document.querySelectorAll('.btn')[1];
       const rect = btn.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       const particleCount = 30;
 
-      // Создание частиц
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.classList.add('phoenix-particle');
@@ -255,18 +330,73 @@
         }, 1300);
       }
 
-      // Создание текста
       const text = document.createElement('div');
       text.classList.add('text-overlay');
       text.textContent = 'Фризер когда видеоролик?';
       document.querySelector('.container').appendChild(text);
 
-      // Применение анимации к тексту
       text.style.animation = 'fadeInOut 5s ease-in-out forwards';
 
-      // Удаление текста после анимации
       setTimeout(() => {
         text.remove();
+      }, 5000);
+    }
+
+    // Анимация для Profile
+    function createProfileAnimation() {
+      const btn = document.querySelectorAll('.btn')[2];
+      const rect = btn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const particleCount = 25;
+
+      // Частицы
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('phoenix-particle');
+        document.body.appendChild(particle);
+
+        particle.style.left = centerX + 'px';
+        particle.style.top = centerY + 'px';
+
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 60 + Math.random() * 100;
+        const endX = Math.cos(angle) * distance;
+        const endY = Math.sin(angle) * distance;
+
+        particle.animate([
+          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+          { transform: `translate(${endX}px, ${endY}px) scale(0.4)`, opacity: 0 }
+        ], {
+          duration: 700 + Math.random() * 400,
+          easing: 'ease-out',
+          iterations: 1
+        });
+
+        setTimeout(() => {
+          particle.remove();
+        }, 1100);
+      }
+
+      // Создание аватарки и имени
+      const profile = document.createElement('div');
+      profile.classList.add('profile-overlay');
+      document.querySelector('.container').appendChild(profile);
+
+      const avatar = document.createElement('img');
+      avatar.classList.add('profile-avatar');
+      avatar.src = photoUrl;
+      profile.appendChild(avatar);
+
+      const usernameText = document.createElement('div');
+      usernameText.classList.add('profile-username');
+      usernameText.textContent = username;
+      profile.appendChild(usernameText);
+
+      profile.style.animation = 'fadeInOut 5s ease-in-out forwards';
+
+      setTimeout(() => {
+        profile.remove();
       }, 5000);
     }
   </script>
