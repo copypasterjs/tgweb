@@ -7,7 +7,7 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     const tg = window.Telegram.WebApp;
-    tg.expand(); // делает окно полноэкранным в Telegram
+    tg.expand();
   </script>
   <style>
     html, body {
@@ -31,14 +31,8 @@
     }
 
     @keyframes blink {
-      0% {
-        opacity: 0.2;
-        transform: scale(0.8);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1.2);
-      }
+      0% { opacity: 0.2; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
     }
 
     .container {
@@ -51,7 +45,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 15px; /* Отступ между карточкой и мини-квадратиками */
+      gap: 15px;
     }
 
     .card {
@@ -79,12 +73,8 @@
     }
 
     @keyframes floatCard {
-      0%, 100% {
-        transform: translateY(0) scale(1);
-      }
-      50% {
-        transform: translateY(-10px) scale(1.02);
-      }
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.02); }
     }
 
     .btn {
@@ -111,28 +101,40 @@
 
     .mini-square-container {
       display: flex;
-      gap: 10px;
+      gap: 15px;
     }
 
     .mini-square {
-      width: 40px;
-      height: 40px;
+      width: 60px;
+      height: 60px;
       background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
+      border-radius: 12px;
       display: flex;
       justify-content: center;
       align-items: center;
       transition: all 0.3s ease;
+      cursor: pointer;
     }
 
     .mini-square:hover {
       background: rgba(0, 191, 255, 0.3);
-      box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+      box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+      transform: scale(1.1);
+    }
+
+    .mini-square:active {
+      animation: clickPulse 0.3s ease-in-out;
+    }
+
+    @keyframes clickPulse {
+      0% { transform: scale(1); box-shadow: 0 0 15px rgba(0, 191, 255, 0.5); }
+      50% { transform: scale(1.2); box-shadow: 0 0 25px rgba(0, 191, 255, 0.8); }
+      100% { transform: scale(1); box-shadow: 0 0 15px rgba(0, 191, 255, 0.5); }
     }
 
     .mini-square img {
-      width: 24px;
-      height: 24px;
+      width: 36px;
+      height: 36px;
       object-fit: contain;
     }
 
@@ -157,11 +159,11 @@
     }
 
     .profile-avatar.non-premium {
-      box-shadow: 0 0 10px 4px rgba(128, 128, 128, 0.7); /* Серый блюр */
+      box-shadow: 0 0 10px 4px rgba(128, 128, 128, 0.7);
     }
 
     .profile-avatar.premium {
-      box-shadow: 0 0 10px 4px rgba(128, 0, 255, 0.7); /* Фиолетовый блюр */
+      box-shadow: 0 0 10px 4px rgba(128, 0, 255, 0.7);
     }
 
     .profile-username {
@@ -180,7 +182,6 @@
       100% { opacity: 0; transform: translate(-50%, 0); }
     }
 
-    /* Медиа-запросы для мобильных устройств */
     @media (max-width: 600px) {
       .card {
         width: 85vw;
@@ -207,59 +208,55 @@
       }
 
       .mini-square {
-        width: 30px;
-        height: 30px;
+        width: 45px;
+        height: 45px;
       }
 
       .mini-square img {
-        width: 18px;
-        height: 18px;
+        width: 27px;
+        height: 27px;
+      }
+
+      .mini-square-container {
+        gap: 10px;
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- Центральная карточка и мини-квадратики -->
   <div class="container">
     <div class="card">
       <button class="btn" onclick="createFireAnimation()">Bedrock Project</button>
       <button class="btn" onclick="createProfileAnimation()">Профиль</button>
     </div>
     <div class="mini-square-container">
-      <div class="mini-square">
+      <div class="mini-square" onclick="createSquareAnimation(this)">
         <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/discord-512.png" alt="Discord">
       </div>
-      <div class="mini-square">
+      <div class="mini-square" onclick="createSquareAnimation(this)">
         <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/telegram-512.png" alt="Telegram">
       </div>
-      <div class="mini-square">
+      <div class="mini-square" onclick="createSquareAnimation(this)">
         <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/tiktok-512.png" alt="TikTok">
       </div>
     </div>
   </div>
 
-  <!-- Скрипт с огоньками и анимацией -->
   <script>
-    // Получение данных пользователя из Telegram
     const user = window.Telegram.WebApp.initDataUnsafe.user || {};
     const username = user.username || user.first_name || 'Аноним';
     const photoUrl = user.photo_url || 'https://via.placeholder.com/80';
     const isPremium = user.is_premium || false;
 
-    // Существующие огоньки (fireflies)
     const fireflyCount = 40;
     for (let i = 0; i < fireflyCount; i++) {
       const firefly = document.createElement('div');
       firefly.classList.add('firefly');
-
       firefly.style.left = Math.random() * 100 + 'vw';
       firefly.style.top = Math.random() * 100 + 'vh';
-
       const moveX = (Math.random() - 0.5) * 100;
       const moveY = (Math.random() - 0.5) * 100;
       const duration = 10 + Math.random() * 20;
-
       firefly.animate([
         { transform: 'translate(0, 0)' },
         { transform: `translate(${moveX}px, ${moveY}px)` }
@@ -269,40 +266,33 @@
         iterations: Infinity,
         easing: 'ease-in-out'
       });
-
       document.body.appendChild(firefly);
     }
 
-    // Анимация для Bedrock Project (без частиц)
-    function createFireAnimation() {
-      // Пустая функция, но сохраняет возможность добавления анимации в будущем
-    }
+    function createFireAnimation() {}
 
-    // Анимация для Profile
     function createProfileAnimation() {
-      // Создание аватарки и имени
       const profile = document.createElement('div');
       profile.classList.add('profile-overlay');
       document.querySelector('.container').appendChild(profile);
-
       const avatar = document.createElement('img');
-      avatar.classList.add('profile-avatar');
-      avatar.classList.add(isPremium ? 'premium' : 'non-premium');
+      avatar.classList.add('profile-avatar', isPremium ? 'premium' : 'non-premium');
       avatar.src = photoUrl;
       profile.appendChild(avatar);
-
       const usernameText = document.createElement('div');
       usernameText.classList.add('profile-username');
       usernameText.textContent = username;
       profile.appendChild(usernameText);
-
       profile.style.animation = 'fadeInOut 5s ease-in-out forwards';
+      setTimeout(() => profile.remove(), 5000);
+    }
 
+    function createSquareAnimation(element) {
+      element.style.animation = 'clickPulse 0.3s ease-in-out';
       setTimeout(() => {
-        profile.remove();
-      }, 5000);
+        element.style.animation = '';
+      }, 300);
     }
   </script>
-
 </body>
 </html>
