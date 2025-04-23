@@ -468,32 +468,36 @@
     };
 
     function getNextEvent() {
+      // Текущее время в МСК (UTC+3)
       const now = new Date();
-      const mskOffset = 3 * 60 * 60 * 1000; // MSK is UTC+3 in milliseconds
-      const mskTime = new Date(now.getTime() + mskOffset);
+      const utcTime = new Date(now.toUTCString());
+      const mskTime = new Date(utcTime.getTime() + 3 * 60 * 60 * 1000); // Добавляем 3 часа для МСК
       const upcomingEvents = {};
 
       for (const [server, eventList] of Object.entries(events)) {
         let closestEvent = null;
-        let closestTimeLeft = null;
+        let closestTimeLeft = Infinity; // Для поиска минимальной разницы
 
-        for (const event of eventList) {
-          const [hours, minutes] = event.time.split(':').map(Number);
-          let eventDateTime = new Date(mskTime);
-          eventDateTime.setHours(hours, minutes, 0, 0);
+        // Проверяем события сегодня и завтра
+        for (let dayOffset = 0; dayOffset <= 1; dayOffset++) {
+          for (const event of eventList) {
+            const [hours, minutes] = event.time.split(':').map(Number);
+            let eventDateTime = new Date(mskTime);
+            eventDateTime.setHours(hours, minutes, 0, 0);
+            if (dayOffset === 1) {
+              eventDateTime.setDate(eventDateTime.getDate() + 1);
+            }
 
-          if (eventDateTime < mskTime) {
-            eventDateTime.setDate(eventDateTime.getDate() + 1);
-          }
-
-          const timeLeftMs = eventDateTime - mskTime;
-          if (!closestEvent || timeLeftMs < closestTimeLeft) {
-            closestEvent = {
-              name: event.name,
-              time: eventDateTime,
-              timeLeftMs
-            };
-            closestTimeLeft = timeLeftMs;
+            const timeLeftMs = eventDateTime - mskTime;
+            // Берем только будущие события с наименьшей разницей
+            if (timeLeftMs > 0 && timeLeftMs < closestTimeLeft) {
+              closestEvent = {
+                name: event.name,
+                time: eventDateTime,
+                timeLeftMs
+              };
+              closestTimeLeft = timeLeftMs;
+            }
           }
         }
 
