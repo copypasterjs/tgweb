@@ -156,7 +156,7 @@
       transform: scale(1.15);
     }
 
-    .profile-overlay, .events-overlay {
+    .profile-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -172,12 +172,12 @@
       transition: opacity 0.5s ease;
     }
 
-    .profile-overlay.active, .events-overlay.active {
+    .profile-overlay.active {
       opacity: 1;
       pointer-events: auto;
     }
 
-    .profile-card, .events-card {
+    .profile-card {
       width: 300px;
       height: auto;
       max-height: 80vh;
@@ -226,6 +226,16 @@
       text-align: center;
     }
 
+    .profile-id {
+      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      text-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
+      margin: 5px 0;
+      text-align: center;
+    }
+
     .premium-status {
       font-size: 16px;
       color: #ffffff;
@@ -234,45 +244,13 @@
       border-radius: 20px;
       border: 1px solid rgba(0, 191, 255, 0.5);
       text-shadow: 0 0 5px rgba(0, 191, 255, 0.8);
+      margin: 10px 0;
     }
 
     .premium-status.premium {
       background: rgba(128, 0, 255, 0.2);
       border: 1px solid rgba(128, 0, 255, 0.5);
       text-shadow: 0 0 5px rgba(128, 0, 255, 0.8);
-    }
-
-    .events-title {
-      color: #ffffff;
-      font-size: 24px;
-      font-weight: 700;
-      text-shadow: 0 0 10px rgba(0, 191, 255, 0.9);
-      margin: 10px 0;
-      text-align: center;
-    }
-
-    .events-list {
-      color: #ffffff;
-      font-size: 14px;
-      text-align: left;
-      width: 100%;
-      padding: 0 15px;
-      line-height: 1.6;
-      text-shadow: 0 0 5px rgba(0, 191, 255, 0.6);
-      box-sizing: border-box;
-    }
-
-    .events-list > div {
-      margin-bottom: 20px;
-      padding: 10px;
-      background: rgba(0, 191, 255, 0.1);
-      border-radius: 10px;
-      border: 1px solid rgba(0, 191, 255, 0.3);
-    }
-
-    .events-list strong {
-      color: #00b7ff;
-      font-size: 16px;
     }
 
     .back-btn {
@@ -336,7 +314,7 @@
         gap: 10px;
       }
 
-      .profile-card, .events-card {
+      .profile-card {
         width: 250px;
         padding: 10px;
       }
@@ -346,22 +324,17 @@
         height: 100px;
       }
 
-      .profile-username, .events-title {
+      .profile-username {
         font-size: 20px;
+      }
+
+      .profile-id {
+        font-size: 14px;
       }
 
       .premium-status {
         font-size: 14px;
         padding: 4px 12px;
-      }
-
-      .events-list {
-        font-size: 12px;
-        padding: 0 10px;
-      }
-
-      .events-list strong {
-        font-size: 14px;
       }
 
       .back-btn {
@@ -376,7 +349,6 @@
     <div class="card">
       <button class="btn" onclick="createFireAnimation()">Bedrock Project</button>
       <button class="btn" onclick="createProfileAnimation()">Профиль</button>
-      <button class="btn" onclick="createEventsAnimation()">EVENTS</button>
     </div>
     <div class="mini-square-container">
       <a href="https://discord.com/" target="_blank" class="mini-square" onclick="createSquareAnimation(this)">
@@ -395,23 +367,17 @@
     <div class="profile-card">
       <img class="profile-avatar" src="" alt="Avatar">
       <div class="profile-username"></div>
+      <div class="profile-id"></div>
       <div class="premium-status"></div>
       <button class="back-btn" onclick="closeProfile()">Назад</button>
-    </div>
-  </div>
-
-  <div class="events-overlay">
-    <div class="events-card">
-      <div class="events-title">Ближайшие события</div>
-      <div class="events-list"></div>
-      <button class="back-btn" onclick="closeEvents()">Назад</button>
     </div>
   </div>
 
   <script>
     const user = window.Telegram.WebApp.initDataUnsafe.user || {};
     const username = user.username || user.first_name || 'Аноним';
-    const photoUrl = user.photo_url || 'https://via.placeholder.com/120';
+    const userId = user.id || 'Неизвестно';
+    const photoUrl = user.photo_url || 'https:// Distance: placeholder.com/120';
     const isPremium = user.is_premium || false;
 
     // Background fireflies
@@ -436,92 +402,6 @@
       document.body.appendChild(firefly);
     }
 
-    // Event data
-    const events = {
-      "NeverTime": [
-        { time: "10:00", name: "Рандомное Событие" },
-        { time: "12:00", name: "Рандомное Событие" },
-        { time: "12:40", name: "Рандомное Событие" },
-        { time: "14:00", name: "Рандомное Событие" },
-        { time: "14:40", name: "Рандомное Событие" },
-        { time: "16:40", name: "Рандомное Событие" },
-        { time: "17:20", name: "Рандомное Событие" },
-        { time: "18:00", name: "Рандомное Событие" },
-        { time: "18:40", name: "Рандомное Событие" },
-        { time: "19:20", name: "Рандомное Событие" },
-        { time: "20:00", name: "Рандомное Событие" },
-        { time: "20:40", name: "Рандомное Событие" },
-        { time: "21:20", name: "Рандомное Событие" },
-        { time: "22:00", name: "Рандомное Событие" }
-      ],
-      "PhoenixPE": [
-        { time: "08:00", name: "Адская Резня" },
-        { time: "10:00", name: "Босс" },
-        { time: "12:00", name: "Адская Резня" },
-        { time: "14:00", name: "Босс" },
-        { time: "16:00", name: "Адская Резня" },
-        { time: "18:00", name: "Босс" },
-        { time: "20:00", name: "Адская Резня" },
-        { time: "22:00", name: "Босс" },
-        { time: "00:00", name: "Адская Резня" }
-      ]
-    };
-
-    function getNextEvent() {
-      // Текущее время в МСК (UTC+3)
-      const now = new Date();
-      const utcTime = new Date(now.toUTCString());
-      const mskTime = new Date(utcTime.getTime() + 3 * 60 * 60 * 1000); // Добавляем 3 часа для МСК
-      const upcomingEvents = {};
-
-      for (const [server, eventList] of Object.entries(events)) {
-        let closestEvent = null;
-        let closestTimeLeft = Infinity; // Для поиска минимальной разницы
-
-        // Проверяем события сегодня и завтра
-        for (let dayOffset = 0; dayOffset <= 1; dayOffset++) {
-          for (const event of eventList) {
-            const [hours, minutes] = event.time.split(':').map(Number);
-            let eventDateTime = new Date(mskTime);
-            eventDateTime.setHours(hours, minutes, 0, 0);
-            if (dayOffset === 1) {
-              eventDateTime.setDate(eventDateTime.getDate() + 1);
-            }
-
-            const timeLeftMs = eventDateTime - mskTime;
-            // Берем только будущие события с наименьшей разницей
-            if (timeLeftMs > 0 && timeLeftMs < closestTimeLeft) {
-              closestEvent = {
-                name: event.name,
-                time: eventDateTime,
-                timeLeftMs
-              };
-              closestTimeLeft = timeLeftMs;
-            }
-          }
-        }
-
-        if (closestEvent) {
-          upcomingEvents[server] = closestEvent;
-        }
-      }
-
-      let message = '';
-      for (const [server, event] of Object.entries(upcomingEvents)) {
-        const hours = Math.floor(event.timeLeftMs / (1000 * 60 * 60));
-        const minutes = Math.floor((event.timeLeftMs % (1000 * 60 * 60)) / (1000 * 60));
-        const timeStr = event.time.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-        message += `<div>` +
-                   `<strong>${server}</strong><br>` +
-                   `📌 ${event.name}<br>` +
-                   `🕒 Время: ${timeStr} (МСК)<br>` +
-                   `⌛ Через: ${hours}ч ${minutes}мин` +
-                   `</div>`;
-      }
-
-      return message || '❌ Нет предстоящих событий!';
-    }
-
     function createFireAnimation() {}
 
     function createSquareAnimation(element) {
@@ -534,6 +414,7 @@
       const overlay = document.querySelector('.profile-overlay');
       const avatar = overlay.querySelector('.profile-avatar');
       const usernameText = overlay.querySelector('.profile-username');
+      const userIdText = overlay.querySelector('.profile-id');
       const premiumStatus = overlay.querySelector('.premium-status');
 
       container.classList.add('hidden');
@@ -542,39 +423,9 @@
       avatar.src = photoUrl;
       avatar.classList.add(isPremium ? 'premium' : 'non-premium');
       usernameText.textContent = username;
+      userIdText.textContent = `ID: ${userId}`;
       premiumStatus.textContent = isPremium ? 'Telegram Premium' : 'Стандартный аккаунт';
       premiumStatus.classList.toggle('premium', isPremium);
-
-      const particleCount = 50;
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 100 + Math.random() * 200;
-        const x = Math.cos(angle) * distance;
-        const y = Math.sin(angle) * distance;
-        particle.style.left = '50%';
-        particle.style.top = '50%';
-        document.body.appendChild(particle);
-        particle.animate([
-          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-          { transform: `translate(${x}px, ${y}px) scale(0)`, opacity: 0 }
-        ], {
-          duration: 1000 + Math.random() * 500,
-          easing: 'ease-out'
-        }).onfinish = () => particle.remove();
-      }
-    }
-
-    function createEventsAnimation() {
-      const container = document.querySelector('.container');
-      const overlay = document.querySelector('.events-overlay');
-      const eventsList = overlay.querySelector('.events-list');
-
-      container.classList.add('hidden');
-      overlay.classList.add('active');
-
-      eventsList.innerHTML = getNextEvent();
 
       const particleCount = 50;
       for (let i = 0; i < particleCount; i++) {
@@ -600,13 +451,6 @@
     function closeProfile() {
       const container = document.querySelector('.container');
       const overlay = document.querySelector('.profile-overlay');
-      overlay.classList.remove('active');
-      container.classList.remove('hidden');
-    }
-
-    function closeEvents() {
-      const container = document.querySelector('.container');
-      const overlay = document.querySelector('.events-overlay');
       overlay.classList.remove('active');
       container.classList.remove('hidden');
     }
