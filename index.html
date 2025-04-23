@@ -123,6 +123,8 @@
       align-items: center;
       transition: all 0.3s ease;
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
 
     .mini-square:hover {
@@ -145,6 +147,11 @@
       width: 36px;
       height: 36px;
       object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    .mini-square:hover img {
+      transform: scale(1.15);
     }
 
     .profile-overlay {
@@ -326,15 +333,15 @@
       <button class="btn" onclick="createProfileAnimation()">Профиль</button>
     </div>
     <div class="mini-square-container">
-      <div class="mini-square" onclick="createSquareAnimation(this)">
-        <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/discord-512.png" alt="Discord">
-      </div>
-      <div class="mini-square" onclick="createSquareAnimation(this)">
-        <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/telegram-512.png" alt="Telegram">
-      </div>
-      <div class="mini-square" onclick="createSquareAnimation(this)">
-        <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/tiktok-512.png" alt="TikTok">
-      </div>
+      <a href="https://discord.com/" target="_blank" class="mini-square" onclick="createSquareAnimation(this)">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968759.png" alt="Discord">
+      </a>
+      <a href="https://telegram.org/" target="_blank" class="mini-square" onclick="createSquareAnimation(this)">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968804.png" alt="Telegram">
+      </a>
+      <a href="https://www.tiktok.com/" target="_blank" class="mini-square" onclick="createSquareAnimation(this)">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968819.png" alt="TikTok">
+      </a>
     </div>
   </div>
 
