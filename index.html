@@ -179,7 +179,8 @@
 
     .profile-card, .events-card {
       width: 300px;
-      height: 400px;
+      height: auto;
+      max-height: 80vh;
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(20px);
       border-radius: 20px;
@@ -187,16 +188,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
+      padding: 15px;
       box-shadow: 0 0 50px rgba(0, 191, 255, 0.4);
       animation: profileFadeIn 0.8s ease-out;
-      overflow-y: auto;
-    }
-
-    .events-card {
-      height: auto;
-      max-height: 80vh;
-      padding: 15px;
+      overflow: hidden;
     }
 
     @keyframes profileFadeIn {
@@ -261,21 +256,27 @@
       font-size: 14px;
       text-align: left;
       width: 100%;
-      padding: 0 10px;
+      padding: 0 15px;
       line-height: 1.6;
       text-shadow: 0 0 5px rgba(0, 191, 255, 0.6);
+      box-sizing: border-box;
     }
 
     .events-list > div {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      padding: 10px;
+      background: rgba(0, 191, 255, 0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(0, 191, 255, 0.3);
     }
 
     .events-list strong {
       color: #00b7ff;
+      font-size: 16px;
     }
 
     .back-btn {
-      margin-top: 20px;
+      margin: 20px 0;
       padding: 10px 30px;
       background: rgba(0, 191, 255, 0.3);
       border: 1px solid rgba(0, 191, 255, 0.7);
@@ -337,9 +338,7 @@
 
       .profile-card, .events-card {
         width: 250px;
-        height: auto;
-        max-height: 80vh;
-        padding: 15px;
+        padding: 10px;
       }
 
       .profile-avatar {
@@ -358,6 +357,11 @@
 
       .events-list {
         font-size: 12px;
+        padding: 0 10px;
+      }
+
+      .events-list strong {
+        font-size: 14px;
       }
 
       .back-btn {
@@ -465,8 +469,8 @@
 
     function getNextEvent() {
       const now = new Date();
-      const mskOffset = 3 * 60; // MSK is UTC+3
-      const mskTime = new Date(now.getTime() + mskOffset * 60 * 1000);
+      const mskOffset = 3 * 60 * 60 * 1000; // MSK is UTC+3 in milliseconds
+      const mskTime = new Date(now.getTime() + mskOffset);
       const upcomingEvents = {};
 
       for (const [server, eventList] of Object.entries(events)) {
@@ -503,9 +507,12 @@
         const hours = Math.floor(event.timeLeftMs / (1000 * 60 * 60));
         const minutes = Math.floor((event.timeLeftMs % (1000 * 60 * 60)) / (1000 * 60));
         const timeStr = event.time.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-        message += `<div><strong>${server}</strong><br>` +
+        message += `<div>` +
+                   `<strong>${server}</strong><br>` +
                    `📌 ${event.name}<br>` +
-                   `🕒 Время: ${timeStr} (МСКщей_timeLeftMs: ${hours}ч ${minutes}мин</div>`;
+                   `🕒 Время: ${timeStr} (МСК)<br>` +
+                   `⌛ Через: ${hours}ч ${minutes}мин` +
+                   `</div>`;
       }
 
       return message || '❌ Нет предстоящих событий!';
