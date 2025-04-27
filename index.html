@@ -1,614 +1,156 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bedrock Project</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-  </script>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      overflow: hidden;
-      font-family: 'Montserrat', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Opener</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .firefly {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: rgba(0, 191, 255, 0.9);
-      border-radius: 50%;
-      box-shadow: 0 0 12px 4px rgba(0, 191, 255, 0.6);
-      animation: blink 1.5s infinite ease-in-out alternate;
-      z-index: 0;
-    }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
 
-    @keyframes blink {
-      0% { opacity: 0.3; transform: scale(0.7); }
-      100% { opacity: 1; transform: scale(1.1); }
-    }
+        .container {
+            text-align: center;
+        }
 
-    .container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
+        .open-case-btn {
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #fff;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(255, 0, 255, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-    .container.hidden {
-      opacity: 0;
-      transform: translate(-50%, -60%);
-      pointer-events: none;
-    }
+        .open-case-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(255, 0, 255, 0.8);
+        }
 
-    .card {
-      width: 70vw;
-      max-width: 350px;
-      height: 50vh;
-      max-height: 350px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0, 174, 255, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 2vh;
-      transition: all 0.3s ease;
-      animation: floatCard 6s ease-in-out infinite;
-    }
+        .open-case-btn:active {
+            transform: scale(0.95);
+        }
 
-    .card:hover {
-      box-shadow: 0 0 40px rgba(0, 191, 255, 0.5);
-      transform: translateY(-5px) scale(1.03);
-    }
+        .case-animation {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
 
-    @keyframes floatCard {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-8px) scale(1.01); }
-    }
+        .case {
+            width: 300px;
+            height: 300px;
+            background: url('https://via.placeholder.com/300?text=Case') center/cover;
+            position: relative;
+            animation: openCase 2s ease-in-out forwards;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.7);
+        }
 
-    .btn {
-      padding: 1.5vh 4vw;
-      background: rgba(0, 191, 255, 0.35);
-      border: 1px solid rgba(0, 191, 255, 0.7);
-      border-radius: 30px;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      font-weight: 600;
-      font-size: 3vw;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      position: relative;
-      z-index: 3;
-      text-shadow: 0 0 6px rgba(0, 191, 255, 0.9);
-      width: 80%;
-      text-align: center;
-    }
+        .item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+            opacity: 0;
+            animation: revealItem 1s ease-in 1.5s forwards;
+        }
 
-    .btn:hover {
-      background: rgba(0, 191, 255, 0.55);
-      box-shadow: 0 0 25px rgba(0, 191, 255, 0.8);
-      color: #ffffff;
-    }
+        @keyframes openCase {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2) rotate(10deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0.8) rotate(-10deg);
+                opacity: 0;
+            }
+        }
 
-    .mini-square-container {
-      display: flex;
-      gap: 15px;
-    }
+        @keyframes revealItem {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
 
-    .mini-square {
-      width: 60px;
-      height: 60px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background: #ff00ff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
 
-    .mini-square:hover {
-      background: rgba(0, 191, 255, 0.3);
-      box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
-      transform: scale(1.1);
-    }
-
-    .mini-square:active {
-      animation: clickPulse 0.3s ease-in-out;
-    }
-
-    @keyframes clickPulse {
-      0% { transform: scale(1); box-shadow: 0 0 15px rgba(0, 191, 255, 0.5); }
-      50% { transform: scale(1.2); box-shadow: 0 0 25px rgba(0, 191, 255, 0.8); }
-      100% { transform: scale(1); box-shadow: 0 0 15px rgba(0, 191, 255, 0.5); }
-    }
-
-    .mini-square img {
-      width: 36px;
-      height: 36px;
-      object-fit: contain;
-      transition: transform 0.3s ease;
-    }
-
-    .mini-square:hover img {
-      transform: scale(1.15);
-    }
-
-    .profile-overlay, .online-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(0, 30, 60, 0.9), rgba(0, 15, 40, 1));
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 10;
-      transition: opacity 0.5s ease;
-    }
-
-    .profile-overlay.active, .online-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .profile-card, .online-card {
-      width: 300px;
-      height: auto;
-      max-height: 80vh;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 15px;
-      box-shadow: 0 0 50px rgba(0, 191, 255, 0.4);
-      animation: profileFadeIn 0.8s ease-out;
-      overflow: hidden;
-    }
-
-    @keyframes profileFadeIn {
-      0% { opacity: 0; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    .profile-avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-top: 20px;
-      transition: all 0.3s ease;
-    }
-
-    .profile-avatar.non-premium {
-      box-shadow: 0 0 15px 5px rgba(128, 128, 128, 0.8);
-    }
-
-    .profile-avatar.premium {
-      box-shadow: 0 0 15px 5px rgba(128, 0, 255, 0.8);
-    }
-
-    .profile-username {
-      color: #ffffff;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      text-shadow: 0 0 10px rgba(0, 191, 255, 0.9), 0 0 15px rgba(0, 191, 255, 0.7);
-      margin: 15px 0 10px;
-      text-align: center;
-    }
-
-    .profile-id {
-      color: #ffffff;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      text-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
-      margin: 5px 0;
-      text-align: center;
-    }
-
-    .premium-status {
-      font-size: 16px;
-      color: #ffffff;
-      background: rgba(0, 191, 255, 0.2);
-      padding: 5px 15px;
-      border-radius: 20px;
-      border: 1px solid rgba(0, 191, 255, 0.5);
-      text-shadow: 0 0 5px rgba(0, 191, 255, 0.8);
-      margin: 10px 0;
-    }
-
-    .premium-status.premium {
-      background: rgba(128, 0, 255, 0.2);
-      border: 1px solid rgba(128, 0, 255, 0.5);
-      text-shadow: 0 0 5px rgba(128, 0, 255, 0.8);
-    }
-
-    .online-title {
-      color: #ffffff;
-      font-size: 24px;
-      font-weight: 700;
-      text-shadow: 0 0 10px rgba(0, 191, 255, 0.9);
-      margin: 10px 0;
-      text-align: center;
-    }
-
-    .online-list {
-      color: #ffffff;
-      font-size: 14px;
-      text-align: left;
-      width: 100%;
-      padding: 0 15px;
-      line-height: 1.6;
-      text-shadow: 0 0 5px rgba(0, 191, 255, 0.6);
-      box-sizing: border-box;
-    }
-
-    .online-list > div {
-      margin-bottom: 20px;
-      padding: 10px;
-      background: rgba(0, 191, 255, 0.1);
-      border-radius: 10px;
-      border: 1px solid rgba(0, 191, 255, 0.3);
-    }
-
-    .online-list strong {
-      color: #00b7ff;
-      font-size: 16px;
-    }
-
-    .back-btn {
-      margin: 20px 0;
-      padding: 10px 30px;
-      background: rgba(0, 191, 255, 0.3);
-      border: 1px solid rgba(0, 191, 255, 0.7);
-      border-radius: 25px;
-      color: #ffffff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-shadow: 0 0 5px rgba(0, 191, 255, 0.8);
-    }
-
-    .back-btn:hover {
-      background: rgba(0, 191, 255, 0.5);
-      box-shadow: 0 0 20px rgba(0, 191, 255, 0.8);
-      transform: scale(1.05);
-    }
-
-    .particle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: rgba(0, 191, 255, 0.8);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9;
-    }
-
-    @media (max-width: 600px) {
-      .card {
-        width: 85vw;
-        height: 60vh;
-        max-height: 400px;
-      }
-
-      .btn {
-        padding: 2vh 6vw;
-        font-size: 4.5vw;
-        background: rgba(0, 191, 255, 0.4);
-        color: #ffffff;
-      }
-
-      .btn:hover {
-        background: rgba(0, 191, 255, 0.6);
-      }
-
-      .mini-square {
-        width: 45px;
-        height: 45px;
-      }
-
-      .mini-square img {
-        width: 27px;
-        height: 27px;
-      }
-
-      .mini-square-container {
-        gap: 10px;
-      }
-
-      .profile-card, .online-card {
-        width: 250px;
-        padding: 10px;
-      }
-
-      .profile-avatar {
-        width: 100px;
-        height: 100px;
-      }
-
-      .profile-username {
-        font-size: 20px;
-      }
-
-      .profile-id {
-        font-size: 14px;
-      }
-
-      .premium-status {
-        font-size: 14px;
-        padding: 4px 12px;
-      }
-
-      .online-title {
-        font-size: 20px;
-      }
-
-      .online-list {
-        font-size: 12px;
-        padding: 0 10px;
-      }
-
-      .online-list strong {
-        font-size: 14px;
-      }
-
-      .back-btn {
-        padding: 8px 25px;
-        font-size: 14px;
-      }
-    }
-  </style>
+        .close-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <button class="btn" onclick="createFireAnimation()">Bedrock Project</button>
-      <button class="btn" onclick="createProfileAnimation()">Профиль</button>
-      <button class="btn" onclick="createOnlineAnimation()">Онлайн</button>
+    <div class="container">
+        <button class="open-case-btn">Открыть кейс</button>
     </div>
-    <div class="mini-square-container">
-      <a href="https://discord.com/" target="_blank" class="mini-square" onclick="createSquareAnimation(this)">
-        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968759.png" alt="Discord">
-      </a>
-      <a href="https://telegram.org/" target="_blank" class="mini-square" onclick="createSquareAnimation(this)">
-        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968804.png" alt="Telegram">
-      </a>
-      <a href="https://www.tiktok.com/" target="_blank" class="mini-square" onclick="createSquareAnimation(this)">
-        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968819.png" alt="TikTok">
-      </a>
+    <div class="case-animation">
+        <button class="close-btn">Закрыть</button>
+        <div class="case">
+            <div class="item">Легендарный предмет!</div>
+        </div>
     </div>
-  </div>
 
-  <div class="profile-overlay">
-    <div class="profile-card">
-      <img class="profile-avatar" src="" alt="Avatar">
-      <div class="profile-username"></div>
-      <div class="profile-id"></div>
-      <div class="premium-status"></div>
-      <button class="back-btn" onclick="closeProfile()">Назад</button>
-    </div>
-  </div>
+    <script>
+        const openBtn = document.querySelector('.open-case-btn');
+        const caseAnimation = document.querySelector('.case-animation');
+        const closeBtn = document.querySelector('.close-btn');
 
-  <div class="online-overlay">
-    <div class="online-card">
-      <div class="online-title">Статус серверов</div>
-      <div class="online-list"></div>
-      <button class="back-btn" onclick="closeOnline()">Назад</button>
-    </div>
-  </div>
-
-  <script>
-    const user = window.Telegram.WebApp.initDataUnsafe.user || {};
-    const username = user.username || user.first_name || 'Аноним';
-    const userId = user.id || 'Неизвестно';
-    const photoUrl = user.photo_url || 'https://via.placeholder.com/120';
-    const isPremium = user.is_premium || false;
-
-    // Background fireflies
-    const fireflyCount = 40;
-    for (let i = 0; i < fireflyCount; i++) {
-      const firefly = document.createElement('div');
-      firefly.classList.add('firefly');
-      firefly.style.left = Math.random() * 100 + 'vw';
-      firefly.style.top = Math.random() * 100 + 'vh';
-      const moveX = (Math.random() - 0.5) * 80;
-      const moveY = (Math.random() - 0.5) * 80;
-      const duration = 8 + Math.random() * 15;
-      firefly.animate([
-        { transform: 'translate(0, 0)' },
-        { transform: `translate(${moveX}px, ${moveY}px)` }
-      ], {
-        duration: duration * 1000,
-        direction: 'alternate',
-        iterations: Infinity,
-        easing: 'ease-in-out'
-      });
-      document.body.appendChild(firefly);
-    }
-
-    const servers = [
-      {
-        name: "NeverTime",
-        ip: "mc.nevertime.su",
-        port: 19132
-      },
-      {
-        name: "PhoenixPE",
-        ip: "phoenix-pe.ru",
-        port: 19132
-      }
-    ];
-
-    async function getOnlineStatus() {
-      let serverStatuses = [];
-
-      for (const server of servers) {
-        let online = null;
-        let maxPlayers = null;
-
-        try {
-          const response = await fetch(`https://api.mcsrvstat.us/bedrock/2/${server.ip}:${server.port}`, {
-            method: 'GET',
-            headers: { 'Accept': 'application/json' }
-          });
-          const data = await response.json();
-          if (data.online) {
-            online = data.players.online;
-            maxPlayers = data.players.max;
-          }
-        } catch (error) {
-          console.error(`Error fetching status for ${server.name}:`, error);
-        }
-
-        serverStatuses.push({
-          name: server.name,
-          online: online !== null ? online : -1,
-          max: maxPlayers
+        openBtn.addEventListener('click', () => {
+            caseAnimation.style.display = 'flex';
         });
-      }
 
-      // Сортировка по онлайну (от большего к меньшему)
-      serverStatuses.sort((a, b) => b.online - a.online);
-
-      let message = '';
-      for (const server of serverStatuses) {
-        if (server.online === -1) {
-          message += `<div>` +
-                     `<strong>${server.name}</strong><br>` +
-                     `❌ Сервер недоступен` +
-                     `</div>`;
-        } else {
-          message += `<div>` +
-                     `<strong>${server.name}</strong><br>` +
-                     `🎮 Онлайн: ${server.online}/${server.max}` +
-                     `</div>`;
-        }
-      }
-
-      return message || '❌ Нет данных о серверах!';
-    }
-
-    function createFireAnimation() {}
-
-    function createSquareAnimation(element) {
-      element.style.animation = 'clickPulse 0.3s ease-in-out';
-      setTimeout(() => element.style.animation = '', 300);
-    }
-
-    function createProfileAnimation() {
-      const container = document.querySelector('.container');
-      const overlay = document.querySelector('.profile-overlay');
-      const avatar = overlay.querySelector('.profile-avatar');
-      const usernameText = overlay.querySelector('.profile-username');
-      const userIdText = overlay.querySelector('.profile-id');
-      const premiumStatus = overlay.querySelector('.premium-status');
-
-      container.classList.add('hidden');
-      overlay.classList.add('active');
-
-      avatar.src = photoUrl;
-      avatar.classList.add(isPremium ? 'premium' : 'non-premium');
-      usernameText.textContent = username;
-      userIdText.textContent = `ID: ${userId}`;
-      premiumStatus.textContent = isPremium ? 'Telegram Premium' : 'Стандартный аккаунт';
-      premiumStatus.classList.toggle('premium', isPremium);
-
-      const particleCount = 50;
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 100 + Math.random() * 200;
-        const x = Math.cos(angle) * distance;
-        const y = Math.sin(angle) * distance;
-        particle.style.left = '50%';
-        particle.style.top = '50%';
-        document.body.appendChild(particle);
-        particle.animate([
-          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-          { transform: `translate(${x}px, ${y}px) scale(0)`, opacity: 0 }
-        ], {
-          duration: 1000 + Math.random() * 500,
-          easing: 'ease-out'
-        }).onfinish = () => particle.remove();
-      }
-    }
-
-    async function createOnlineAnimation() {
-      const container = document.querySelector('.container');
-      const overlay = document.querySelector('.online-overlay');
-      const onlineList = overlay.querySelector('.online-list');
-
-      container.classList.add('hidden');
-      overlay.classList.add('active');
-
-      onlineList.innerHTML = await getOnlineStatus();
-
-      const particleCount = 50;
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 100 + Math.random() * 200;
-        const x = Math.cos(angle) * distance;
-        const y = Math.sin(angle) * distance;
-        particle.style.left = '50%';
-        particle.style.top = '50%';
-        document.body.appendChild(particle);
-        particle.animate([
-          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-          { transform: `translate(${x}px, ${y}px) scale(0)`, opacity: 0 }
-        ], {
-          duration: 1000 + Math.random() * 500,
-          easing: 'ease-out'
-        }).onfinish = () => particle.remove();
-      }
-    }
-
-    function closeProfile() {
-      const container = document.querySelector('.container');
-      const overlay = document.querySelector('.profile-overlay');
-      overlay.classList.remove('active');
-      container.classList.remove('hidden');
-    }
-
-    function closeOnline() {
-      const container = document.querySelector('.container');
-      const overlay = document.querySelector('.online-overlay');
-      overlay.classList.remove('active');
-      container.classList.remove('hidden');
-    }
-  </script>
+        closeBtn.addEventListener('click', () => {
+            caseAnimation.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
