@@ -68,6 +68,7 @@
             background: url('https://via.placeholder.com/300?text=Case') center/cover;
             position: relative;
             animation: openCase 4s ease-in-out forwards;
+            border: 2px solid #00ffff;
             border-radius: 20px;
             box-shadow: 0 0 50px rgba(0, 255, 255, 0.7);
         }
@@ -101,30 +102,33 @@
 
         .item {
             position: absolute;
-            top: 50%;
+            top: 40%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(0) rotate(0deg);
             opacity: 0;
-            animation: revealItem 1s ease-in 3s forwards;
+            animation: revealItem 1.5s ease-in 4s forwards;
         }
 
         .item img {
             width: 150px;
             height: 150px;
+            filter: drop-shadow(0 0 20px #ff00ff);
         }
 
         .win-text {
             position: absolute;
             top: 70%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(0);
             font-size: 36px;
             font-weight: bold;
             color: #fff;
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff, 0 0 30px #00ffff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 30px #ff00ff;
             opacity: 0;
-            animation: revealText 1s ease-in 3.5s forwards;
+            animation: revealText 1.5s ease-in 4.5s forwards;
             font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         @keyframes openCase {
@@ -177,18 +181,26 @@
         @keyframes revealItem {
             0% {
                 opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
+                transform: translate(-50%, -50%) scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1.5) rotate(180deg);
             }
             100% {
                 opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
+                transform: translate(-50%, -50%) scale(1) rotate(360deg);
             }
         }
 
         @keyframes revealText {
             0% {
                 opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translate(-50%, -50%) scale(1.2);
             }
             100% {
                 opacity: 1;
@@ -234,9 +246,9 @@
                 <div class="particle" style="--x: -0.5; --y: -0.5;"></div>
             </div>
             <div class="item">
-                <img src="https://media.tenor.com/9eC3bV4yOZwAAAAC/minecraft-fireworks.gif" alt="Minecraft Firework">
+                <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" alt="Netherite Sword">
             </div>
-            <div class="win-text">Ваш выигрыш: Фейерверк x64</div>
+            <div class="win-text">Ваш выигрыш: Незеритовый меч</div>
         </div>
     </div>
 
