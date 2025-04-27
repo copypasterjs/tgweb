@@ -55,10 +55,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            overflow: hidden;
         }
 
         .case {
@@ -66,9 +67,36 @@
             height: 300px;
             background: url('https://via.placeholder.com/300?text=Case') center/cover;
             position: relative;
-            animation: openCase 2s ease-in-out forwards;
+            animation: openCase 4s ease-in-out forwards;
             border-radius: 20px;
             box-shadow: 0 0 50px rgba(0, 255, 255, 0.7);
+        }
+
+        .flash {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+            opacity: 0;
+            animation: flashEffect 1s ease-in-out infinite alternate;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #00ffff;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: particleBurst 2s ease-out forwards;
         }
 
         .item {
@@ -76,11 +104,27 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 32px;
-            color: #fff;
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
             opacity: 0;
-            animation: revealItem 1s ease-in 1.5s forwards;
+            animation: revealItem 1s ease-in 3s forwards;
+        }
+
+        .item img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .win-text {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff, 0 0 30px #00ffff;
+            opacity: 0;
+            animation: revealText 1s ease-in 3.5s forwards;
+            font-family: 'Montserrat', sans-serif;
         }
 
         @keyframes openCase {
@@ -88,17 +132,60 @@
                 transform: scale(1) rotate(0deg);
                 opacity: 1;
             }
-            50% {
+            20% {
+                transform: scale(1.1) rotate(5deg);
+                opacity: 0.9;
+            }
+            40% {
+                transform: scale(1.05) rotate(-5deg);
+                opacity: 0.85;
+            }
+            60% {
                 transform: scale(1.2) rotate(10deg);
                 opacity: 0.8;
             }
+            80% {
+                transform: scale(1.1) rotate(-10deg);
+                opacity: 0.6;
+            }
             100% {
-                transform: scale(0.8) rotate(-10deg);
+                transform: scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes flashEffect {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes particleBurst {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(calc(100px * var(--x)), calc(100px * var(--y)));
                 opacity: 0;
             }
         }
 
         @keyframes revealItem {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes revealText {
             0% {
                 opacity: 0;
                 transform: translate(-50%, -50%) scale(0.5);
@@ -135,7 +222,21 @@
     <div class="case-animation">
         <button class="close-btn">Закрыть</button>
         <div class="case">
-            <div class="item">Легендарный предмет!</div>
+            <div class="flash"></div>
+            <div class="particles">
+                <div class="particle" style="--x: 1; --y: 1;"></div>
+                <div class="particle" style="--x: -1; --y: 1;"></div>
+                <div class="particle" style="--x: 1; --y: -1;"></div>
+                <div class="particle" style="--x: -1; --y: -1;"></div>
+                <div class="particle" style="--x: 0.5; --y: 0.5;"></div>
+                <div class="particle" style="--x: -0.5; --y: 0.5;"></div>
+                <div class="particle" style="--x: 0.5; --y: -0.5;"></div>
+                <div class="particle" style="--x: -0.5; --y: -0.5;"></div>
+            </div>
+            <div class="item">
+                <img src="https://media.tenor.com/9eC3bV4yOZwAAAAC/minecraft-fireworks.gif" alt="Minecraft Firework">
+            </div>
+            <div class="win-text">Ваш выигрыш: Фейерверк x64</div>
         </div>
     </div>
 
