@@ -100,32 +100,47 @@
             animation: particleBurst 2s ease-out forwards;
         }
 
-        .item {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0) rotate(0deg);
-            opacity: 0;
-            animation: revealItem 1.5s ease-in 4s forwards;
+        .result-window {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radialರ.4s ease-in-out;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
         }
 
-        .item img {
-            width: 150px;
-            height: 150px;
+        .result-container {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(255, 0, 255, 0.5);
+        }
+
+        .result-item {
+            opacity: 0;
+            animation: revealItem 1.5s ease-in forwards;
+        }
+
+        .result-item img {
+            width: 200px;
+            height: 200px;
             filter: drop-shadow(0 0 20px #ff00ff);
         }
 
-        .win-text {
-            position: absolute;
-            top: 70%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
+        .result-text {
+            margin-top: 20px;
             font-size: 36px;
             font-weight: bold;
             color: #fff;
             text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 30px #ff00ff;
             opacity: 0;
-            animation: revealText 1.5s ease-in 4.5s forwards;
+            animation: revealText 1.5s ease-in 0.5s forwards;
             font-family: 'Montserrat', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -181,30 +196,30 @@
         @keyframes revealItem {
             0% {
                 opacity: 0;
-                transform: translate(-50%, -50%) scale(0) rotate(0deg);
+                transform: scale(0) rotate(0deg);
             }
             50% {
                 opacity: 0.5;
-                transform: translate(-50%, -50%) scale(1.5) rotate(180deg);
+                transform: scale(1.5) rotate(180deg);
             }
             100% {
                 opacity: 1;
-                transform: translate(-50%, -50%) scale(1) rotate(360deg);
+                transform: scale(1) rotate(360deg);
             }
         }
 
         @keyframes revealText {
             0% {
                 opacity: 0;
-                transform: translate(-50%, -50%) scale(0);
+                transform: scale(0);
             }
             50% {
                 opacity: 0.7;
-                transform: translate(-50%, -50%) scale(1.2);
+                transform: scale(1.2);
             }
             100% {
                 opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
+                transform: scale(1);
             }
         }
 
@@ -232,7 +247,6 @@
         <button class="open-case-btn">Открыть кейс</button>
     </div>
     <div class="case-animation">
-        <button class="close-btn">Закрыть</button>
         <div class="case">
             <div class="flash"></div>
             <div class="particles">
@@ -245,24 +259,34 @@
                 <div class="particle" style="--x: 0.5; --y: -0.5;"></div>
                 <div class="particle" style="--x: -0.5; --y: -0.5;"></div>
             </div>
-            <div class="item">
+        </div>
+    </div>
+    <div class="result-window">
+        <button class="close-btn">Закрыть</button>
+        <div class="result-container">
+            <div class="result-item">
                 <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" alt="Netherite Sword">
             </div>
-            <div class="win-text">Ваш выигрыш: Незеритовый меч</div>
+            <div class="result-text">Ваш выигрыш: Незеритовый меч</div>
         </div>
     </div>
 
     <script>
         const openBtn = document.querySelector('.open-case-btn');
         const caseAnimation = document.querySelector('.case-animation');
+        const resultWindow = document.querySelector('.result-window');
         const closeBtn = document.querySelector('.close-btn');
 
         openBtn.addEventListener('click', () => {
             caseAnimation.style.display = 'flex';
+            setTimeout(() => {
+                caseAnimation.style.display = 'none';
+                resultWindow.style.display = 'flex';
+            }, 4000); // Show result window after 4 seconds (case animation duration)
         });
 
         closeBtn.addEventListener('click', () => {
-            caseAnimation.style.display = 'none';
+            resultWindow.style.display = 'none';
         });
     </script>
 </body>
