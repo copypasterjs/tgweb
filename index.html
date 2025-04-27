@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Case Opener</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,12 +18,13 @@
             align-items: center;
             min-height: 100vh;
             background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+            overflow: auto;
         }
 
         .container {
             text-align: center;
+            padding: 20px;
         }
 
         .open-case-btn {
@@ -37,6 +39,7 @@
             cursor: pointer;
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(255, 0, 255, 0.5);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 30px;
         }
 
         .open-case-btn:hover {
@@ -46,6 +49,45 @@
 
         .open-case-btn:active {
             transform: scale(0.95);
+        }
+
+        .prizes-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .prize-item {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .prize-item:hover {
+            transform: scale(1.05);
+        }
+
+        .prize-item img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px #ff00ff);
+        }
+
+        .prize-item p {
+            color: #fff;
+            font-size: 16px;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+        .prize-item .chance {
+            color: #00ffff;
+            font-weight: bold;
         }
 
         .case-animation {
@@ -107,7 +149,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radialರ.4s ease-in-out;
             background: radial-gradient(circle, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
             justify-content: center;
             align-items: center;
@@ -141,7 +182,6 @@
             text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 30px #ff00ff;
             opacity: 0;
             animation: revealText 1.5s ease-in 0.5s forwards;
-            font-family: 'Montserrat', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
@@ -223,10 +263,7 @@
             }
         }
 
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        .close-btn, .menu-btn {
             padding: 10px 20px;
             font-size: 18px;
             color: #fff;
@@ -235,18 +272,69 @@
             border-radius: 10px;
             cursor: pointer;
             transition: transform 0.3s ease;
+            margin: 10px;
         }
 
-        .close-btn:hover {
+        .close-btn:hover, .menu-btn:hover {
             transform: scale(1.1);
+        }
+
+        .button-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="main-container">
         <button class="open-case-btn">Открыть кейс</button>
+        <div class="prizes-list">
+            <div class="prize-item">
+                <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" alt="Незеритовый меч">
+                <p>Незеритовый меч<br><span class="chance">10%</span></p>
+            </div>
+            <div class="prize-item">
+                <img src="https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png" alt="Зачарованные яблоки">
+                <p>Зачарованные яблоки<br><span class="chance">20%</span></p>
+            </div>
+            <div class="prize-item">
+                <img src="https://minecraft.wiki/images/Netherite_Pickaxe_JE3.png" alt="Зачарованная кирка">
+                <p>Зачарованная кирка<br><span class="chance">50%</span></p>
+            </div>
+            <div class="prize-item">
+                <img src="https://minecraft.wiki/images/Elytra_JE2_BE2.png" alt="Элитры">
+                <p>Элитры<br><span class="chance">5%</span></p>
+            </div>
+            <div class="prize-item">
+                <img src="https://minecraft.wiki/images/Totem_of_Undying_JE2_BE2.png" alt="Тотем бессмертия">
+                <p>Тотем бессмертия<br><span class="chance">5%</span></p>
+            </div>
+            <div class="prize-item">
+                <img src="https://minecraft.wiki/images/Netherite_Chestplate_JE2_BE1.png" alt="Незеритовая броня">
+                <p>Незеритовая броня<br><span class="chance">3%</span></p>
+            </div>
+            <div class="prize-item">
+                <img src="https://minecraft.wiki/images/Beacon_JE7_BE2.png" alt="Маяк">
+                <p>Маяк<br><span class="chance">3%</span></p>
+            </div>
+            <div class="prize-item">
+                <img src="https://minecraft.wiki/images/Trident_JE3_BE2.png" alt="Трезубец">
+                <p>Трезубец<br><span class="chance">2%</span></p>
+            </div>
+            <div class="prize-item">
+                <img src="https://minecraft.wiki/images/Crossbow_JE3_BE2.png" alt="Арбалет">
+                <p>Арбалет<br><span class="chance">1%</span></p>
+            </div>
+            <div class="prize-item">
+                <img src="https://minecraft.wiki/images/Nether_Star_JE2_BE2.gif" alt="Звезда Незера">
+                <p>Звезда Незера<br><span class="chance">1%</span></p>
+            </div>
+        </div>
     </div>
-    <div class="case-animation">
+    <div class="case-animation" id="case-animation">
         <div class="case">
             <div class="flash"></div>
             <div class="particles">
@@ -261,32 +349,75 @@
             </div>
         </div>
     </div>
-    <div class="result-window">
-        <button class="close-btn">Закрыть</button>
+    <div class="result-window" id="result-window">
+        <div class="button-container">
+            <button class="close-btn">Закрыть</button>
+            <button class="menu-btn">Назад в меню</button>
+        </div>
         <div class="result-container">
-            <div class="result-item">
-                <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" alt="Netherite Sword">
+            <div class="result-item" id="result-item">
+                <img id="prize-img" src="" alt="Prize">
             </div>
-            <div class="result-text">Ваш выигрыш: Незеритовый меч</div>
+            <div class="result-text" id="result-text">Ваш выигрыш: </div>
         </div>
     </div>
 
     <script>
+        const prizes = [
+            { name: 'Незеритовый меч', probability: 0.10, image: 'https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png' },
+            { name: 'Зачарованные яблоки', probability: 0.20, image: 'https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png' },
+            { name: 'Зачарованная кирка', probability: 0.50, image: 'https://minecraft.wiki/images/Netherite_Pickaxe_JE3.png' },
+            { name: 'Элитры', probability: 0.05, image: 'https://minecraft.wiki/images/Elytra_JE2_BE2.png' },
+            { name: 'Тотем бессмертия', probability: 0.05, image: 'https://minecraft.wiki/images/Totem_of_Undying_JE2_BE2.png' },
+            { name: 'Незеритовая броня', probability: 0.03, image: 'https://minecraft.wiki/images/Netherite_Chestplate_JE2_BE1.png' },
+            { name: 'Маяк', probability: 0.03, image: 'https://minecraft.wiki/images/Beacon_JE7_BE2.png' },
+            { name: 'Трезубец', probability: 0.02, image: 'https://minecraft.wiki/images/Trident_JE3_BE2.png' },
+            { name: 'Арбалет', probability: 0.01, image: 'https://minecraft.wiki/images/Crossbow_JE3_BE2.png' },
+            { name: 'Звезда Незера', probability: 0.01, image: 'https://minecraft.wiki/images/Nether_Star_JE2_BE2.gif' }
+        ];
+
+        function getRandomPrize() {
+            const rand = Math.random();
+            let cumulative = 0;
+            for (const prize of prizes) {
+                cumulative += prize.probability;
+                if (rand <= cumulative) {
+                    return prize;
+                }
+            }
+            return prizes[0]; // Fallback
+        }
+
         const openBtn = document.querySelector('.open-case-btn');
-        const caseAnimation = document.querySelector('.case-animation');
-        const resultWindow = document.querySelector('.result-window');
+        const mainContainer = document.querySelector('#main-container');
+        const caseAnimation = document.querySelector('#case-animation');
+        const resultWindow = document.querySelector('#result-window');
         const closeBtn = document.querySelector('.close-btn');
+        const menuBtn = document.querySelector('.menu-btn');
+        const prizeImg = document.querySelector('#prize-img');
+        const resultText = document.querySelector('#result-text');
 
         openBtn.addEventListener('click', () => {
+            mainContainer.style.display = 'none';
             caseAnimation.style.display = 'flex';
             setTimeout(() => {
                 caseAnimation.style.display = 'none';
                 resultWindow.style.display = 'flex';
-            }, 4000); // Show result window after 4 seconds (case animation duration)
+                const prize = getRandomPrize();
+                prizeImg.src = prize.image;
+                prizeImg.alt = prize.name;
+                resultText.textContent = `Ваш выигрыш: ${prize.name}`;
+            }, 4000); // Show result window after 4 seconds
         });
 
         closeBtn.addEventListener('click', () => {
             resultWindow.style.display = 'none';
+            mainContainer.style.display = 'block';
+        });
+
+        menuBtn.addEventListener('click', () => {
+            resultWindow.style.display = 'none';
+            mainContainer.style.display = 'block';
         });
     </script>
 </body>
