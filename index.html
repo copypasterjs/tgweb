@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crash Rocket</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,11 +14,11 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #0a1e3b, #2c1b5e, #1a3d62);
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
             background-size: 400% 400%;
             animation: gradient 20s ease infinite;
-            font-family: 'Roboto', sans-serif;
-            color: #fff;
+            font-family: 'Inter', sans-serif;
+            color: #333;
             overflow-x: hidden;
             position: relative;
         }
@@ -41,15 +41,15 @@
 
         .particle {
             position: absolute;
-            width: 5px;
-            height: 5px;
-            background: #00ffff;
+            width: 6px;
+            height: 6px;
+            background: #fff;
             border-radius: 50%;
             opacity: 0.3;
-            animation: float 10s infinite linear;
+            animation: sparkle 8s infinite linear;
         }
 
-        @keyframes float {
+        @keyframes sparkle {
             0% { transform: translateY(0); opacity: 0.3; }
             50% { opacity: 0.6; }
             100% { transform: translateY(-100vh); opacity: 0; }
@@ -67,21 +67,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.8);
+            background: #fff;
             padding: 1rem 2rem;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
         }
 
         .navbar h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px #00ffff;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
         }
 
         .nav-buttons {
@@ -91,57 +87,71 @@
 
         .btn {
             padding: 0.8rem 1.5rem;
-            font-family: 'Orbitron', sans-serif;
             font-size: 1rem;
+            font-weight: 600;
             text-transform: uppercase;
             color: #fff;
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            background: #4a90e2;
             border: none;
-            border-radius: 25px;
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .main-menu, .profile, .promo-section, .result-window {
+        .login-section, .main-menu, .profile, .promo-section, .admin-menu, .result-window {
             display: none;
         }
 
-        .main-menu.active, .profile.active, .promo-section.active, .result-window.active {
+        .login-section.active, .main-menu.active, .profile.active, .promo-section.active, .admin-menu.active, .result-window.active {
             display: block;
         }
 
-        .game-area {
-            background: rgba(0, 0, 0, 0.85);
+        .login-card, .game-area, .profile-card, .promo-card {
+            background: #fff;
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
+        }
+
+        .login-card h2, .game-area h2, .profile-card h2, .promo-card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .login-card input, .promo-card input, .bet-controls input {
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f5f5f5;
+            color: #333;
+            width: calc(100% - 1rem);
+            margin: 0.5rem 0;
         }
 
         #game-canvas {
             width: 100%;
             max-width: 800px;
             height: 400px;
-            border: 2px solid #00ffff;
-            border-radius: 10px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
             margin: 1rem auto;
-            background: #1a1a1a;
+            background: #fff;
         }
 
         .multiplier {
-            font-family: 'Orbitron', sans-serif;
             font-size: 3rem;
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 15px #00ffff;
+            font-weight: 700;
+            color: #4a90e2;
             margin: 1rem 0;
         }
 
@@ -152,40 +162,10 @@
             flex-wrap: wrap;
         }
 
-        .bet-controls input {
-            padding: 0.8rem;
-            font-size: 1rem;
-            border-radius: 10px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            width: 150px;
-            text-align: center;
-        }
-
-        .profile-card, .promo-card {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
-            margin: 2rem 0;
-        }
-
-        .profile-card h2, .promo-card h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px #00ffff;
-            margin-bottom: 1rem;
-        }
-
         .profile-card p {
             font-size: 1.2rem;
             margin: 0.5rem 0;
-            text-shadow: 0 0 5px #00ffff;
+            color: #555;
         }
 
         .prizes-list {
@@ -196,28 +176,27 @@
         }
 
         .prize-item {
-            background: rgba(0, 0, 0, 0.7);
+            background: #f5f5f5;
             padding: 1rem;
-            border-radius: 10px;
+            border-radius: 8px;
             text-align: center;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
         }
 
         .prize-item:hover {
-            transform: scale(1.05);
+            transform: translateY(-2px);
         }
 
         .prize-item img {
             width: 80px;
             height: 80px;
             margin-bottom: 0.5rem;
-            filter: drop-shadow(0 0 10px #ff00ff);
         }
 
         .prize-item p {
             font-size: 1rem;
-            text-shadow: 0 0 5px #00ffff;
+            color: #555;
         }
 
         .result-window {
@@ -226,7 +205,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.7);
             display: none;
             justify-content: center;
             align-items: center;
@@ -238,32 +217,18 @@
         }
 
         .result-container {
-            background: rgba(0, 0, 0, 0.9);
+            background: #fff;
             padding: 2rem;
-            border-radius: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
         }
 
         .result-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 15px #00ffff;
-        }
-
-        .promo-card input {
-            padding: 0.8rem;
-            font-size: 1rem;
-            border-radius: 10px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            width: calc(100% - 1rem);
-            margin: 0.5rem 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4a90e2;
+            margin-bottom: 1rem;
         }
 
         @media (max-width: 768px) {
@@ -288,7 +253,7 @@
                 width: 120px;
             }
 
-            .profile-card h2, .promo-card h2 {
+            .login-card h2, .game-area h2, .profile-card h2, .promo-card h2 {
                 font-size: 1.5rem;
             }
         }
@@ -323,19 +288,42 @@
     <div class="particles" id="particles"></div>
 
     <div class="container">
+        <!-- Login Section -->
+        <div class="login-section active" id="login-section">
+            <div class="login-card">
+                <h2>Вход</h2>
+                <input type="text" id="login-username" placeholder="Ник">
+                <input type="password" id="login-password" placeholder="Пароль">
+                <button class="btn" onclick="login()">Войти</button>
+                <button class="btn" onclick="showRegister()">Зарегистрироваться</button>
+            </div>
+        </div>
+
+        <!-- Registration Section -->
+        <div class="login-section" id="register-section">
+            <div class="login-card">
+                <h2>Регистрация</h2>
+                <input type="text" id="register-username" placeholder="Ник">
+                <input type="password" id="register-password" placeholder="Пароль">
+                <button class="btn" onclick="register()">Зарегистрироваться</button>
+                <button class="btn" onclick="showLogin()">Назад</button>
+            </div>
+        </div>
+
         <!-- Navbar -->
-        <div class="navbar">
+        <div class="navbar" id="navbar" style="display: none;">
             <h1>Crash Rocket</h1>
             <div class="nav-buttons">
                 <button class="btn" onclick="showMainMenu()">Игра</button>
                 <button class="btn" onclick="showProfile()">Профиль</button>
                 <button class="btn" onclick="showPromo()">Промокод</button>
-                <button class="btn admin-btn" id="admin-btn" onclick="showAdmin()">Админ-панель</button>
+                <button class="btn admin-btn" id="admin-btn" onclick="showAdmin()" style="display: none;">Админ-панель</button>
+                <button class="btn" onclick="logout()">Выйти</button>
             </div>
         </div>
 
         <!-- Main Menu (Crash Game) -->
-        <div class="main-menu active" id="main-menu">
+        <div class="main-menu" id="main-menu">
             <div class="game-area">
                 <h2>Crash Rocket</h2>
                 <canvas id="game-canvas"></canvas>
@@ -352,10 +340,10 @@
         <div class="profile" id="profile">
             <div class="profile-card">
                 <h2>Профиль</h2>
-                <p>Ник: <span id="username">Player1</span></p>
+                <p>Ник: <span id="username"></span></p>
                 <p>Сервер: <span id="server">EU</span></p>
-                <p>Донат: <span id="donation">VIP</span></p>
-                <p>Ключи: <span id="keys">5</span></p>
+                <p>Донат: <span id="donation">Нет</span></p>
+                <p>Ключи: <span id="keys">0</span></p>
             </div>
             <div class="profile-card">
                 <h2>Мои призы</h2>
@@ -374,7 +362,7 @@
         </div>
 
         <!-- Admin Menu -->
-        <div class="promo-section" id="admin-menu">
+        <div class="admin-menu" id="admin-menu">
             <div class="promo-card">
                 <h2>Админ-панель</h2>
                 <input type="text" id="promo-code" placeholder="Введите промокод">
@@ -403,18 +391,10 @@
             { name: 'Маяк', probability: 0.03, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3WDlKcHzz3RAeC3tGHADeNknGs3PjVkFuNA&s' },
             { name: 'Трезубец', probability: 0.02, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTneakchPTkPR4ikw9eoEdrniIFJpRg6ynqrg&s' },
             { name: 'Арбалет', probability: 0.01, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiehLBdEHvhy3wt4vl4cIfyUBIegKOXXeiTg&s' },
-            { name: 'Звезда Незера', probability: 0.01, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1Mm-gsY85PgbWwAF4V5IEOJpzmabL74DZjg&s' }
+            { name: 'Звезда Незера', probability: 0.01, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbngsY85PgbWwAF4V5IEOJpzmabL74DZjg&s' }
         ];
 
-        let user = {
-            username: 'Player1',
-            server: 'EU',
-            donation: 'VIP',
-            keys: 5,
-            prizes: [],
-            isAdmin: true
-        };
-
+        let user = null;
         let gameState = {
             isRunning: false,
             multiplier: 1,
@@ -438,59 +418,133 @@
             drawGame(1, false);
         }
 
-        function saveUser() {
-            localStorage.setItem('user', JSON.stringify(user));
+        function saveUsers(users) {
+            localStorage.setItem('users', JSON.stringify(users));
         }
 
-        function loadUser() {
-            const saved = localStorage.getItem('user');
-            if (saved) {
-                user = JSON.parse(saved);
+        function loadUsers() {
+            const saved = localStorage.getItem('users');
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveUser() {
+            if (user) {
+                const users = loadUsers();
+                users[user.username] = user;
+                saveUsers(users);
             }
-            updateProfile();
+        }
+
+        function login() {
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            const users = loadUsers();
+
+            if (users[username] && users[username].password === password) {
+                user = users[username];
+                document.getElementById('login-section').classList.remove('active');
+                document.getElementById('navbar').style.display = 'flex';
+                document.getElementById('admin-btn').style.display = user.isAdmin ? 'block' : 'none';
+                showMainMenu();
+                updateProfile();
+            } else {
+                alert('Неверный ник или пароль');
+            }
+        }
+
+        function register() {
+            const username = document.getElementById('register-username').value.trim();
+            const password = document.getElementById('register-password').value;
+            const users = loadUsers();
+
+            if (users[username]) {
+                alert('Ник уже занят');
+                return;
+            }
+
+            if (username && password) {
+                user = {
+                    username,
+                    password,
+                    server: 'EU',
+                    donation: 'Нет',
+                    keys: 5,
+                    prizes: [],
+                    isAdmin: username === 'admin' && password === '123123'
+                };
+                users[username] = user;
+                saveUsers(users);
+                document.getElementById('register-section').classList.remove('active');
+                document.getElementById('navbar').style.display = 'flex';
+                document.getElementById('admin-btn').style.display = user.isAdmin ? 'block' : 'none';
+                showMainMenu();
+                updateProfile();
+            } else {
+                alert('Введите ник и пароль');
+            }
+        }
+
+        function logout() {
+            user = null;
+            document.getElementById('navbar').style.display = 'none';
+            document.querySelectorAll('.container > div:not(.navbar):not(.particles)').forEach(div => div.classList.remove('active'));
+            document.getElementById('login-section').classList.add('active');
             resetGameState();
         }
 
+        function showLogin() {
+            document.getElementById('register-section').classList.remove('active');
+            document.getElementById('login-section').classList.add('active');
+        }
+
+        function showRegister() {
+            document.getElementById('login-section').classList.remove('active');
+            document.getElementById('register-section').classList.add('active');
+        }
+
         function updateProfile() {
-            document.getElementById('username').textContent = user.username;
-            document.getElementById('server').textContent = user.server;
-            document.getElementById('donation').textContent = user.donation;
-            document.getElementById('keys').textContent = user.keys;
-            document.getElementById('admin-btn').style.display = user.isAdmin ? 'block' : 'none';
-            const myPrizes = document.getElementById('my-prizes');
-            myPrizes.innerHTML = '';
-            user.prizes.forEach(prize => {
-                const div = document.createElement('div');
-                div.className = 'prize-item';
-                div.innerHTML = `<img src="${prize.image}" alt="${prize.name}"><p>${prize.name}</p>`;
-                myPrizes.appendChild(div);
-            });
+            if (user) {
+                document.getElementById('username').textContent = user.username;
+                document.getElementById('server').textContent = user.server;
+                document.getElementById('donation').textContent = user.donation;
+                document.getElementById('keys').textContent = user.keys;
+                const myPrizes = document.getElementById('my-prizes');
+                myPrizes.innerHTML = '';
+                user.prizes.forEach(prize => {
+                    const div = document.createElement('div');
+                    div.className = 'prize-item';
+                    div.innerHTML = `<img src="${prize.image}" alt="${prize.name}" onerror="this.src='https://via.placeholder.com/80?text=Error'"><p>${prize.name}</p>`;
+                    myPrizes.appendChild(div);
+                });
+            }
         }
 
         function showMainMenu() {
-            document.querySelectorAll('.container > div:not(.navbar)').forEach(div => div.classList.remove('active'));
+            document.querySelectorAll('.container > div:not(.navbar):not(.particles)').forEach(div => div.classList.remove('active'));
             document.getElementById('main-menu').classList.add('active');
             resetGameState();
         }
 
         function showProfile() {
             updateProfile();
-            document.querySelectorAll('.container > div:not(.navbar)').forEach(div => div.classList.remove('active'));
+            document.querySelectorAll('.container > div:not(.navbar):not(.particles)').forEach(div => div.classList.remove('active'));
             document.getElementById('profile').classList.add('active');
         }
 
         function showPromo() {
-            document.querySelectorAll('.container > div:not(.navbar)').forEach(div => div.classList.remove('active'));
+            document.querySelectorAll('.container > div:not(.navbar):not(.particles)').forEach(div => div.classList.remove('active'));
             document.getElementById('promo-section').classList.add('active');
         }
 
         function showAdmin() {
-            document.querySelectorAll('.container > div:not(.navbar)').forEach(div => div.classList.remove('active'));
-            document.getElementById('admin-menu').classList.add('active');
+            if (user && user.isAdmin) {
+                document.querySelectorAll('.container > div:not(.navbar):not(.particles)').forEach(div => div.classList.remove('active'));
+                document.getElementById('admin-menu').classList.add('active');
+            }
         }
 
         function createPromoCode() {
-            const code = document.getElementById('promo-code').value;
+            const code = document.getElementById('promo-code').value.trim();
             const reward = parseInt(document.getElementById('promo-reward').value);
             if (code && reward > 0) {
                 localStorage.setItem(`promo_${code}`, reward);
@@ -503,7 +557,7 @@
         }
 
         function redeemPromoCode() {
-            const code = document.getElementById('promo-code-input').value;
+            const code = document.getElementById('promo-code-input').value.trim();
             const reward = localStorage.getItem(`promo_${code}`);
             if (reward) {
                 user.keys += parseInt(reward);
@@ -557,31 +611,39 @@
 
         let elytra = new Image();
         elytra.src = 'https://minecraft.wiki/images/Elytra_JE2_BE2.png';
+        elytra.onerror = () => {
+            console.error('Failed to load elytra image');
+            elytra.src = 'https://via.placeholder.com/100?text=Elytra';
+        };
 
         function drawGame(multiplier, crashed) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = crashed ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 255, 255, 0.2)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            try {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = crashed ? 'rgba(255, 0, 0, 0.2)' : 'rgba(74, 144, 226, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            const yPos = canvas.height - (multiplier * 50);
-            const xPos = canvas.width / 2 - 50;
-            if (elytra.complete && !crashed) {
-                ctx.drawImage(elytra, xPos, yPos, 100, 100);
-            }
+                const yPos = canvas.height - (multiplier * 50);
+                const xPos = canvas.width / 2 - 50;
+                if (elytra.complete && !crashed) {
+                    ctx.drawImage(elytra, xPos, yPos, 100, 100);
+                }
 
-            ctx.beginPath();
-            ctx.moveTo(0, canvas.height);
-            for (let x = 0; x < canvas.width; x++) {
-                const t = x / canvas.width * multiplier;
-                ctx.lineTo(x, canvas.height - (Math.pow(t, 2) * 50));
+                ctx.beginPath();
+                ctx.moveTo(0, canvas.height);
+                for (let x = 0; x < canvas.width; x++) {
+                    const t = x / canvas.width * multiplier;
+                    ctx.lineTo(x, canvas.height - (Math.pow(t, 2) * 50));
+                }
+                ctx.strokeStyle = '#4a90e2';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            } catch (e) {
+                console.error('Canvas draw error:', e);
             }
-            ctx.strokeStyle = '#ff00ff';
-            ctx.lineWidth = 3;
-            ctx.stroke();
         }
 
         function placeBet() {
-            if (gameState.isRunning) return;
+            if (!user || gameState.isRunning) return;
             const bet = parseInt(betInput.value);
             if (isNaN(bet) || bet <= 0 || bet > user.keys) {
                 alert('Недействительная ставка или недостаточно ключей');
@@ -622,7 +684,7 @@
         }
 
         function startGame() {
-            let crashPoint = Math.random() * 10 + 1; // Random crash between 1x and 11x
+            let crashPoint = Math.random() * 10 + 1;
             let startTime = Date.now();
 
             function animate() {
@@ -646,23 +708,28 @@
                 requestAnimationFrame(animate);
             }
 
-            animate();
+            try {
+                animate();
+            } catch (e) {
+                console.error('Game animation error:', e);
+                resetGameState();
+            }
         }
 
         // Particle Effect
         function createParticles() {
             const particlesDiv = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 20; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = `${Math.random() * 100}%`;
-                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particle.style.animationDelay = `${Math.random() * 8}s`;
                 particlesDiv.appendChild(particle);
             }
         }
 
         createParticles();
-        loadUser();
+        resetGameState();
     </script>
 </body>
 </html>
