@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Case Opener</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>Crash Rocket</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,16 +13,14 @@
         }
 
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a1a, #2c2c2c, #0a3d62);
+            background: linear-gradient(135deg, #0a1e3b, #2c1b5e, #1a3d62);
             background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            font-family: 'Orbitron', sans-serif;
-            overflow: auto;
+            animation: gradient 20s ease infinite;
+            font-family: 'Roboto', sans-serif;
             color: #fff;
+            overflow-x: hidden;
+            position: relative;
         }
 
         @keyframes gradient {
@@ -31,71 +29,163 @@
             100% { background-position: 0% 50%; }
         }
 
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #00ffff;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 10s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 0.3; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
         .container {
-            text-align: center;
-            padding: 2rem;
-            width: 100%;
             max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .main-menu, .profile, .admin-menu {
-            display: none;
-        }
-
-        .main-menu.active, .profile.active, .admin-menu.active {
-            display: block;
-        }
-
-        .case-selection {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .case-item {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-        }
-
-        .case-item:hover {
-            transform: scale(1.05);
-        }
-
-        .case-item img {
-            width: 100%;
-            max-width: 150px;
-            height: auto;
-            margin-bottom: 1rem;
-        }
-
-        .case-item p {
-            font-size: 1.2rem;
-            text-shadow: 0 0 5px #00ffff;
-        }
-
-        .open-case-btn, .nav-btn, .promo-btn, .withdraw-btn, .admin-btn {
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
             padding: 1rem 2rem;
-            font-size: 1.2rem;
-            font-weight: bold;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        .navbar h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
             text-transform: uppercase;
             color: #fff;
             background: linear-gradient(45deg, #ff00ff, #00ffff);
             border: none;
-            border-radius: 50px;
+            border-radius: 25px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin: 0.5rem;
         }
 
-        .open-case-btn:hover, .nav-btn:hover, .promo-btn:hover, .withdraw-btn:hover, .admin-btn:hover {
+        .btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+        }
+
+        .main-menu, .profile, .promo-section, .result-window {
+            display: none;
+        }
+
+        .main-menu.active, .profile.active, .promo-section.active, .result-window.active {
+            display: block;
+        }
+
+        .game-area {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            text-align: center;
+        }
+
+        #game-canvas {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            margin: 1rem auto;
+            background: #1a1a1a;
+        }
+
+        .multiplier {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px #00ffff;
+            margin: 1rem 0;
+        }
+
+        .bet-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .bet-controls input {
+            padding: 0.8rem;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            width: 150px;
+            text-align: center;
+        }
+
+        .profile-card, .promo-card {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            margin: 2rem 0;
+        }
+
+        .profile-card h2, .promo-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px #00ffff;
+            margin-bottom: 1rem;
+        }
+
+        .profile-card p {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            text-shadow: 0 0 5px #00ffff;
         }
 
         .prizes-list {
@@ -130,87 +220,21 @@
             text-shadow: 0 0 5px #00ffff;
         }
 
-        .prize-item .chance {
-            color: #00ffff;
-            font-weight: bold;
-        }
-
-        .case-animation {
-            display: none;
+        .result-window {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.95);
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            overflow: hidden;
         }
 
-        .case-roller {
-            width: 80%;
-            max-width: 1000px;
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-            border: 2px solid #00ffff;
-            border-radius: 10px;
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.7);
-        }
-
-        .roller-items {
+        .result-window.active {
             display: flex;
-            position: absolute;
-            animation: roll 5s ease-in-out forwards;
-        }
-
-        .roller-item {
-            width: 150px;
-            height: 150px;
-            margin: 25px 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .roller-item img {
-            width: 100px;
-            height: 100px;
-            filter: drop-shadow(0 0 10px #ff00ff);
-        }
-
-        .marker {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 10px;
-            height: 200px;
-            background: #ff00ff;
-            opacity: 0.7;
-        }
-
-        @keyframes roll {
-            0% { transform: translateX(0); }
-            80% { transform: translateX(calc(-150px * 20)); }
-            100% { transform: translateX(calc(-150px * 20 + 75px)); }
-        }
-
-        .result-window {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
         }
 
         .result-container {
@@ -221,97 +245,50 @@
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
         }
 
-        .result-item {
-            opacity: 0;
-            animation: revealItem 1.5s ease-in forwards;
-        }
-
-        .result-item img {
-            width: 150px;
-            height: 150px;
-            filter: drop-shadow(0 0 20px #ff00ff);
-        }
-
         .result-text {
-            margin-top: 1rem;
+            font-family: 'Orbitron', sans-serif;
             font-size: 2rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px #ff00ff;
-            animation: revealText 1.5s ease-in 0.5s forwards;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px #00ffff;
         }
 
-        @keyframes revealItem {
-            0% { opacity: 0; transform: scale(0); }
-            50% { opacity: 0.5; transform: scale(1.5); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes revealText {
-            0% { opacity: 0; transform: scale(0); }
-            50% { opacity: 0.7; transform: scale(1.2); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        .profile-info, .admin-form {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-        }
-
-        .profile-info p, .admin-form label {
-            font-size: 1.2rem;
-            margin: 0.5rem 0;
-            text-shadow: 0 0 5px #00ffff;
-        }
-
-        .admin-form input, .promo-input {
-            padding: 0.5rem;
+        .promo-card input {
+            padding: 0.8rem;
             font-size: 1rem;
-            border-radius: 5px;
+            border-radius: 10px;
             border: none;
-            margin: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
             width: calc(100% - 1rem);
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
+            margin: 0.5rem 0;
         }
 
         @media (max-width: 768px) {
-            .open-case-btn, .nav-btn, .promo-btn, .withdraw-btn, .admin-btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
+            .navbar h1 {
+                font-size: 1.5rem;
             }
 
-            .case-item img {
-                max-width: 100px;
+            .btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
             }
 
-            .case-roller {
-                height: 150px;
+            #game-canvas {
+                height: 300px;
             }
 
-            .roller-item {
-                width: 100px;
-                height: 100px;
-                margin: 25px 5px;
+            .multiplier {
+                font-size: 2rem;
             }
 
-            .roller-item img {
-                width: 70px;
-                height: 70px;
+            .bet-controls input {
+                width: 120px;
             }
 
-            .result-item img {
-                width: 100px;
-                height: 100px;
-            }
-
-            .result-text {
+            .profile-card h2, .promo-card h2 {
                 font-size: 1.5rem;
             }
         }
@@ -321,100 +298,97 @@
                 padding: 1rem;
             }
 
-            .case-selection {
-                grid-template-columns: 1fr;
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
             }
 
-            .case-item p {
-                font-size: 1rem;
+            .nav-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .prizes-list {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+
     <div class="container">
-        <!-- Main Menu -->
-        <div class="main-menu active" id="main-menu">
-            <h1>Выберите кейс</h1>
-            <div class="case-selection">
-                <div class="case-item" data-case="basic">
-                    <img src="https://via.placeholder.com/150?text=Basic+Case" alt="Basic Case">
-                    <p>Базовый кейс</p>
-                </div>
-                <div class="case-item" data-case="premium">
-                    <img src="https://via.placeholder.com/150?text=Premium+Case" alt="Premium Case">
-                    <p>Премиум кейс</p>
-                </div>
-                <div class="case-item" data-case="elite">
-                    <img src="https://via.placeholder.com/150?text=Elite+Case" alt="Elite Case">
-                    <p>Элитный кейс</p>
-                </div>
+        <!-- Navbar -->
+        <div class="navbar">
+            <h1>Crash Rocket</h1>
+            <div class="nav-buttons">
+                <button class="btn" onclick="showMainMenu()">Игра</button>
+                <button class="btn" onclick="showProfile()">Профиль</button>
+                <button class="btn" onclick="showPromo()">Промокод</button>
+                <button class="btn admin-btn" id="admin-btn" onclick="showAdmin()">Админ-панель</button>
             </div>
-            <div class="button-container">
-                <button class="nav-btn" onclick="showProfile()">Профиль</button>
-                <button class="promo-btn" onclick="showPromo()">Промокод</button>
+        </div>
+
+        <!-- Main Menu (Crash Game) -->
+        <div class="main-menu active" id="main-menu">
+            <div class="game-area">
+                <h2>Crash Rocket</h2>
+                <canvas id="game-canvas"></canvas>
+                <div class="multiplier" id="multiplier">1.00x</div>
+                <div class="bet-controls">
+                    <input type="number" id="bet-amount" placeholder="Ставка (ключи)" min="1">
+                    <button class="btn" id="bet-btn" onclick="placeBet()">Сделать ставку</button>
+                    <button class="btn" id="cashout-btn" onclick="cashout()" disabled>Вывести</button>
+                </div>
             </div>
         </div>
 
         <!-- Profile Section -->
         <div class="profile" id="profile">
-            <h1>Профиль</h1>
-            <div class="profile-info">
+            <div class="profile-card">
+                <h2>Профиль</h2>
                 <p>Ник: <span id="username">Player1</span></p>
                 <p>Сервер: <span id="server">EU</span></p>
                 <p>Донат: <span id="donation">VIP</span></p>
                 <p>Ключи: <span id="keys">5</span></p>
             </div>
-            <h2>Мои призы</h2>
-            <div class="prizes-list" id="my-prizes"></div>
-            <button class="withdraw-btn" onclick="withdrawPrizes()">Вывести призы</button>
-            <div class="button-container">
-                <button class="nav-btn" onclick="showMainMenu()">Назад в меню</button>
-                <button class="admin-btn" id="admin-btn" onclick="showAdminMenu()">Админ-панель</button>
+            <div class="profile-card">
+                <h2>Мои призы</h2>
+                <div class="prizes-list" id="my-prizes"></div>
+                <button class="btn" onclick="withdrawPrizes()">Вывести призы</button>
+            </div>
+        </div>
+
+        <!-- Promo Code Section -->
+        <div class="promo-section" id="promo-section">
+            <div class="promo-card">
+                <h2>Промокод</h2>
+                <input type="text" id="promo-code-input" placeholder="Введите промокод">
+                <button class="btn" onclick="redeemPromoCode()">Активировать</button>
             </div>
         </div>
 
         <!-- Admin Menu -->
-        <div class="admin-menu" id="admin-menu">
-            <h1>Админ-панель</h1>
-            <div class="admin-form">
-                <label for="promo-code">Создать промокод:</label>
+        <div class="promo-section" id="admin-menu">
+            <div class="promo-card">
+                <h2>Админ-панель</h2>
                 <input type="text" id="promo-code" placeholder="Введите промокод">
-                <label for="promo-reward">Награда (ключи):</label>
                 <input type="number" id="promo-reward" placeholder="Количество ключей">
-                <button class="admin-btn" onclick="createPromoCode()">Создать</button>
-            </div>
-            <button class="nav-btn" onclick="showProfile()">Назад в профиль</button>
-        </div>
-
-        <!-- Case Animation -->
-        <div class="case-animation" id="case-animation">
-            <div class="case-roller">
-                <div class="roller-items" id="roller-items"></div>
-                <div class="marker"></div>
+                <button class="btn" onclick="createPromoCode()">Создать</button>
             </div>
         </div>
 
         <!-- Result Window -->
         <div class="result-window" id="result-window">
-            <div class="button-container">
-                <button class="nav-btn" onclick="closeResult()">Закрыть</button>
-                <button class="nav-btn" onclick="showMainMenu()">Назад в меню</button>
-            </div>
             <div class="result-container">
-                <div class="result-item" id="result-item">
-                    <img id="prize-img" src="" alt="Prize">
-                </div>
-                <div class="result-text" id="result-text">Ваш выигрыш: </div>
+                <div class="result-text" id="result-text"></div>
+                <button class="btn" onclick="closeResult()">Закрыть</button>
             </div>
-        </div>
-
-        <!-- Promo Code Input -->
-        <div class="promo-input" id="promo-input" style="display: none;">
-            <h2>Введите промокод</h2>
-            <input type="text" id="promo-code-input" placeholder="Промокод">
-            <button class="promo-btn" onclick="redeemPromoCode()">Активировать</button>
-            <button class="nav-btn" onclick="showMainMenu()">Назад</button>
         </div>
     </div>
 
@@ -432,12 +406,6 @@
             { name: 'Звезда Незера', probability: 0.01, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1Mm-gsY85PgbWwAF4V5IEOJpzmabL74DZjg&s' }
         ];
 
-        const cases = {
-            basic: prizes.slice(0, 5),
-            premium: prizes.slice(2, 8),
-            elite: prizes.slice(5, 10)
-        };
-
         let user = {
             username: 'Player1',
             server: 'EU',
@@ -446,6 +414,29 @@
             prizes: [],
             isAdmin: true
         };
+
+        let gameState = {
+            isRunning: false,
+            multiplier: 1,
+            bet: 0,
+            hasCashedOut: false,
+            crashed: false
+        };
+
+        function resetGameState() {
+            gameState = {
+                isRunning: false,
+                multiplier: 1,
+                bet: 0,
+                hasCashedOut: false,
+                crashed: false
+            };
+            document.getElementById('multiplier').textContent = '1.00x';
+            document.getElementById('bet-btn').disabled = false;
+            document.getElementById('cashout-btn').disabled = true;
+            document.getElementById('result-window').classList.remove('active');
+            drawGame(1, false);
+        }
 
         function saveUser() {
             localStorage.setItem('user', JSON.stringify(user));
@@ -457,6 +448,7 @@
                 user = JSON.parse(saved);
             }
             updateProfile();
+            resetGameState();
         }
 
         function updateProfile() {
@@ -475,38 +467,26 @@
             });
         }
 
-        function getRandomPrize(caseType) {
-            const casePrizes = cases[caseType];
-            const rand = Math.random();
-            let cumulative = 0;
-            for (const prize of casePrizes) {
-                cumulative += prize.probability;
-                if (rand <= cumulative) {
-                    return prize;
-                }
-            }
-            return casePrizes[0];
-        }
-
         function showMainMenu() {
-            document.querySelectorAll('.container > div').forEach(div => div.classList.remove('active'));
+            document.querySelectorAll('.container > div:not(.navbar)').forEach(div => div.classList.remove('active'));
             document.getElementById('main-menu').classList.add('active');
+            resetGameState();
         }
 
         function showProfile() {
             updateProfile();
-            document.querySelectorAll('.container > div').forEach(div => div.classList.remove('active'));
+            document.querySelectorAll('.container > div:not(.navbar)').forEach(div => div.classList.remove('active'));
             document.getElementById('profile').classList.add('active');
         }
 
-        function showAdminMenu() {
-            document.querySelectorAll('.container > div').forEach(div => div.classList.remove('active'));
-            document.getElementById('admin-menu').classList.add('active');
+        function showPromo() {
+            document.querySelectorAll('.container > div:not(.navbar)').forEach(div => div.classList.remove('active'));
+            document.getElementById('promo-section').classList.add('active');
         }
 
-        function showPromo() {
-            document.querySelectorAll('.container > div').forEach(div => div.classList.remove('active'));
-            document.getElementById('promo-input').style.display = 'block';
+        function showAdmin() {
+            document.querySelectorAll('.container > div:not(.navbar)').forEach(div => div.classList.remove('active'));
+            document.getElementById('admin-menu').classList.add('active');
         }
 
         function createPromoCode() {
@@ -529,7 +509,7 @@
                 user.keys += parseInt(reward);
                 saveUser();
                 alert(`Промокод активирован! Получено ${reward} ключей`);
-                showMainMenu();
+                showProfile();
             } else {
                 alert('Недействительный промокод');
             }
@@ -547,50 +527,141 @@
             }
         }
 
-        function startCaseAnimation(caseType) {
-            if (user.keys <= 0) {
-                alert('Недостаточно ключей!');
+        function getRandomPrize() {
+            const rand = Math.random();
+            let cumulative = 0;
+            for (const prize of prizes) {
+                cumulative += prize.probability;
+                if (rand <= cumulative) {
+                    return prize;
+                }
+            }
+            return prizes[0];
+        }
+
+        // Crash Game Logic
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const multiplierDisplay = document.getElementById('multiplier');
+        const betBtn = document.getElementById('bet-btn');
+        const cashoutBtn = document.getElementById('cashout-btn');
+        const betInput = document.getElementById('bet-amount');
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let elytra = new Image();
+        elytra.src = 'https://minecraft.wiki/images/Elytra_JE2_BE2.png';
+
+        function drawGame(multiplier, crashed) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = crashed ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 255, 255, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const yPos = canvas.height - (multiplier * 50);
+            const xPos = canvas.width / 2 - 50;
+            if (elytra.complete && !crashed) {
+                ctx.drawImage(elytra, xPos, yPos, 100, 100);
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height);
+            for (let x = 0; x < canvas.width; x++) {
+                const t = x / canvas.width * multiplier;
+                ctx.lineTo(x, canvas.height - (Math.pow(t, 2) * 50));
+            }
+            ctx.strokeStyle = '#ff00ff';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        function placeBet() {
+            if (gameState.isRunning) return;
+            const bet = parseInt(betInput.value);
+            if (isNaN(bet) || bet <= 0 || bet > user.keys) {
+                alert('Недействительная ставка или недостаточно ключей');
                 return;
             }
-            user.keys--;
+            gameState.bet = bet;
+            gameState.isRunning = true;
+            gameState.multiplier = 1;
+            gameState.hasCashedOut = false;
+            gameState.crashed = false;
+            user.keys -= bet;
             saveUser();
-            document.querySelectorAll('.container > div').forEach(div => div.classList.remove('active'));
-            const caseAnimation = document.getElementById('case-animation');
-            const rollerItems = document.getElementById('roller-items');
-            rollerItems.innerHTML = '';
-            const casePrizes = cases[caseType];
-            for (let i = 0; i < 30; i++) {
-                const prize = casePrizes[Math.floor(Math.random() * casePrizes.length)];
-                const div = document.createElement('div');
-                div.className = 'roller-item';
-                div.innerHTML = `<img src="${prize.image}" alt="${prize.name}">`;
-                rollerItems.appendChild(div);
-            }
-            caseAnimation.style.display = 'flex';
-            setTimeout(() => {
-                caseAnimation.style.display = 'none';
-                const prize = getRandomPrize(caseType);
-                user.prizes.push(prize);
-                saveUser();
-                document.getElementById('prize-img').src = prize.image;
-                document.getElementById('prize-img').alt = prize.name;
-                document.getElementById('result-text').textContent = `Ваш выигрыш: ${prize.name}`;
-                document.getElementById('result-window').style.display = 'flex';
-            }, 6000);
+            updateProfile();
+            betBtn.disabled = true;
+            cashoutBtn.disabled = false;
+            startGame();
+        }
+
+        function cashout() {
+            if (!gameState.isRunning || gameState.hasCashedOut || gameState.crashed) return;
+            gameState.hasCashedOut = true;
+            gameState.isRunning = false;
+            const winnings = Math.floor(gameState.bet * gameState.multiplier);
+            user.keys += winnings;
+            const prize = getRandomPrize();
+            user.prizes.push(prize);
+            saveUser();
+            document.getElementById('result-text').textContent = `Вы выиграли ${winnings} ключей и ${prize.name}!`;
+            document.getElementById('result-window').classList.add('active');
+            betBtn.disabled = false;
+            cashoutBtn.disabled = true;
         }
 
         function closeResult() {
-            document.getElementById('result-window').style.display = 'none';
+            document.getElementById('result-window').classList.remove('active');
+            resetGameState();
             showMainMenu();
         }
 
-        document.querySelectorAll('.case-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const caseType = item.dataset.case;
-                startCaseAnimation(caseType);
-            });
-        });
+        function startGame() {
+            let crashPoint = Math.random() * 10 + 1; // Random crash between 1x and 11x
+            let startTime = Date.now();
 
+            function animate() {
+                if (!gameState.isRunning || gameState.hasCashedOut) return;
+                const elapsed = (Date.now() - startTime) / 1000;
+                gameState.multiplier = 1 + Math.pow(elapsed, 2) * 0.5;
+                multiplierDisplay.textContent = `${gameState.multiplier.toFixed(2)}x`;
+
+                if (gameState.multiplier >= crashPoint) {
+                    gameState.isRunning = false;
+                    gameState.crashed = true;
+                    betBtn.disabled = false;
+                    cashoutBtn.disabled = true;
+                    document.getElementById('result-text').textContent = `Краш на ${gameState.multiplier.toFixed(2)}x! Вы потеряли ${gameState.bet} ключей.`;
+                    document.getElementById('result-window').classList.add('active');
+                    drawGame(gameState.multiplier, true);
+                    return;
+                }
+
+                drawGame(gameState.multiplier, false);
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        // Particle Effect
+        function createParticles() {
+            const particlesDiv = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particlesDiv.appendChild(particle);
+            }
+        }
+
+        createParticles();
         loadUser();
     </script>
 </body>
