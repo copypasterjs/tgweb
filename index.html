@@ -14,9 +14,9 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            background: linear-gradient(135deg, #f5f5f5, #d0d0d0);
             background-size: 400% 400%;
-            animation: gradient 20s ease infinite;
+            animation: gradient 15s ease infinite;
             font-family: 'Inter', sans-serif;
             color: #333;
             overflow-x: hidden;
@@ -41,18 +41,18 @@
 
         .particle {
             position: absolute;
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             background: #fff;
             border-radius: 50%;
-            opacity: 0.3;
-            animation: sparkle 8s infinite linear;
+            opacity: 0.4;
+            animation: glow 10s infinite ease-in-out;
         }
 
-        @keyframes sparkle {
-            0% { transform: translateY(0); opacity: 0.3; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-100vh); opacity: 0; }
+        @keyframes glow {
+            0% { transform: translateY(0) scale(1); opacity: 0.4; }
+            50% { transform: translateY(-50vh) scale(1.2); opacity: 0.8; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0.4; }
         }
 
         .container {
@@ -72,12 +72,21 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .navbar h1 {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #333;
+            background: linear-gradient(45deg, #4a90e2, #50c9c3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .nav-buttons {
@@ -91,7 +100,7 @@
             font-weight: 600;
             text-transform: uppercase;
             color: #fff;
-            background: #4a90e2;
+            background: linear-gradient(45deg, #4a90e2, #50c9c3);
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -100,8 +109,15 @@
         }
 
         .btn:hover {
-            transform: translateY(-2px);
+            transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1.05); }
         }
 
         .login-section, .main-menu, .profile, .promo-section, .admin-menu, .result-window {
@@ -110,6 +126,12 @@
 
         .login-section.active, .main-menu.active, .profile.active, .promo-section.active, .admin-menu.active, .result-window.active {
             display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .login-card, .game-area, .profile-card, .promo-card {
@@ -123,7 +145,10 @@
         .login-card h2, .game-area h2, .profile-card h2, .promo-card h2 {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #333;
+            background: linear-gradient(45deg, #4a90e2, #50c9c3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 1rem;
         }
 
@@ -132,10 +157,28 @@
             font-size: 1rem;
             border: 1px solid #ccc;
             border-radius: 8px;
-            background: #f5f5f5;
+            background: #f9f9f9;
             color: #333;
             width: calc(100% - 1rem);
             margin: 0.5rem 0;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-card input:focus, .promo-card input:focus, .bet-controls input:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
+        }
+
+        .coin-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         #game-canvas {
@@ -151,8 +194,18 @@
         .multiplier {
             font-size: 3rem;
             font-weight: 700;
-            color: #4a90e2;
+            background: linear-gradient(45deg, #4a90e2, #50c9c3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin: 1rem 0;
+            animation: pulseText 1.5s ease infinite;
+        }
+
+        @keyframes pulseText {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .bet-controls {
@@ -165,37 +218,6 @@
         .profile-card p {
             font-size: 1.2rem;
             margin: 0.5rem 0;
-            color: #555;
-        }
-
-        .prizes-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .prize-item {
-            background: #f5f5f5;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .prize-item:hover {
-            transform: translateY(-2px);
-        }
-
-        .prize-item img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 0.5rem;
-        }
-
-        .prize-item p {
-            font-size: 1rem;
             color: #555;
         }
 
@@ -222,12 +244,16 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
+            animation: fadeIn 0.5s ease;
         }
 
         .result-text {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #4a90e2;
+            background: linear-gradient(45deg, #4a90e2, #50c9c3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 1rem;
         }
 
@@ -276,10 +302,6 @@
             .btn {
                 width: 100%;
             }
-
-            .prizes-list {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -291,6 +313,10 @@
         <!-- Login Section -->
         <div class="login-section active" id="login-section">
             <div class="login-card">
+                <svg class="coin-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#4a90e2" stroke-width="2" fill="#fff"/>
+                    <path d="M12 6a4 4 0 0 0-4 4v4a4 4 0 0 0 8 0v-4a4 4 0 0 0-4-4z" fill="#4a90e2"/>
+                </svg>
                 <h2>Вход</h2>
                 <input type="text" id="login-username" placeholder="Ник">
                 <input type="password" id="login-password" placeholder="Пароль">
@@ -302,6 +328,10 @@
         <!-- Registration Section -->
         <div class="login-section" id="register-section">
             <div class="login-card">
+                <svg class="coin-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#4a90e2" stroke-width="2" fill="#fff"/>
+                    <path d="M12 6a4 4 0 0 0-4 4v4a4 4 0 0 0 8 0v-4a4 4 0 0 0-4-4z" fill="#4a90e2"/>
+                </svg>
                 <h2>Регистрация</h2>
                 <input type="text" id="register-username" placeholder="Ник">
                 <input type="password" id="register-password" placeholder="Пароль">
@@ -329,7 +359,7 @@
                 <canvas id="game-canvas"></canvas>
                 <div class="multiplier" id="multiplier">1.00x</div>
                 <div class="bet-controls">
-                    <input type="number" id="bet-amount" placeholder="Ставка (ключи)" min="1">
+                    <input type="number" id="bet-amount" placeholder="Ставка (монеты)" min="1">
                     <button class="btn" id="bet-btn" onclick="placeBet()">Сделать ставку</button>
                     <button class="btn" id="cashout-btn" onclick="cashout()" disabled>Вывести</button>
                 </div>
@@ -343,12 +373,7 @@
                 <p>Ник: <span id="username"></span></p>
                 <p>Сервер: <span id="server">EU</span></p>
                 <p>Донат: <span id="donation">Нет</span></p>
-                <p>Ключи: <span id="keys">0</span></p>
-            </div>
-            <div class="profile-card">
-                <h2>Мои призы</h2>
-                <div class="prizes-list" id="my-prizes"></div>
-                <button class="btn" onclick="withdrawPrizes()">Вывести призы</button>
+                <p>Монеты: <span id="coins">0</span></p>
             </div>
         </div>
 
@@ -366,7 +391,7 @@
             <div class="promo-card">
                 <h2>Админ-панель</h2>
                 <input type="text" id="promo-code" placeholder="Введите промокод">
-                <input type="number" id="promo-reward" placeholder="Количество ключей">
+                <input type="number" id="promo-reward" placeholder="Количество монет">
                 <button class="btn" onclick="createPromoCode()">Создать</button>
             </div>
         </div>
@@ -381,19 +406,6 @@
     </div>
 
     <script>
-        const prizes = [
-            { name: 'Незеритовый меч', probability: 0.10, image: 'https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png' },
-            { name: 'Зачарованные яблоки', probability: 0.20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1M2tIRxiAztsdnxeEZo_gFlE-jayikueWgTDT3gqlPbQE-5LXb4m4MxqfztwFMTMUN4E&usqp=CAU' },
-            { name: 'Зачарованная кирка', probability: 0.50, image: 'https://minecraft.wiki/images/Netherite_Pickaxe_JE3.png' },
-            { name: 'Элитры', probability: 0.05, image: 'https://minecraft.wiki/images/Elytra_JE2_BE2.png' },
-            { name: 'Тотем бессмертия', probability: 0.05, image: 'https://minecraft.wiki/images/Totem_of_Undying_JE2_BE2.png' },
-            { name: 'Незеритовая броня', probability: 0.03, image: 'https://minecraft.wiki/images/Netherite_Chestplate_JE2_BE1.png' },
-            { name: 'Маяк', probability: 0.03, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3WDlKcHzz3RAeC3tGHADeNknGs3PjVkFuNA&s' },
-            { name: 'Трезубец', probability: 0.02, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTneakchPTkPR4ikw9eoEdrniIFJpRg6ynqrg&s' },
-            { name: 'Арбалет', probability: 0.01, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiehLBdEHvhy3wt4vl4cIfyUBIegKOXXeiTg&s' },
-            { name: 'Звезда Незера', probability: 0.01, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbngsY85PgbWwAF4V5IEOJpzmabL74DZjg&s' }
-        ];
-
         let user = null;
         let gameState = {
             isRunning: false,
@@ -468,8 +480,7 @@
                     password,
                     server: 'EU',
                     donation: 'Нет',
-                    keys: 5,
-                    prizes: [],
+                    coins: 100, // Starting coins
                     isAdmin: username === 'admin' && password === '123123'
                 };
                 users[username] = user;
@@ -507,15 +518,7 @@
                 document.getElementById('username').textContent = user.username;
                 document.getElementById('server').textContent = user.server;
                 document.getElementById('donation').textContent = user.donation;
-                document.getElementById('keys').textContent = user.keys;
-                const myPrizes = document.getElementById('my-prizes');
-                myPrizes.innerHTML = '';
-                user.prizes.forEach(prize => {
-                    const div = document.createElement('div');
-                    div.className = 'prize-item';
-                    div.innerHTML = `<img src="${prize.image}" alt="${prize.name}" onerror="this.src='https://via.placeholder.com/80?text=Error'"><p>${prize.name}</p>`;
-                    myPrizes.appendChild(div);
-                });
+                document.getElementById('coins').textContent = user.coins;
             }
         }
 
@@ -548,7 +551,7 @@
             const reward = parseInt(document.getElementById('promo-reward').value);
             if (code && reward > 0) {
                 localStorage.setItem(`promo_${code}`, reward);
-                alert(`Промокод ${code} создан с наградой ${reward} ключей`);
+                alert(`Промокод ${code} создан с наградой ${reward} монет`);
                 document.getElementById('promo-code').value = '';
                 document.getElementById('promo-reward').value = '';
             } else {
@@ -560,37 +563,14 @@
             const code = document.getElementById('promo-code-input').value.trim();
             const reward = localStorage.getItem(`promo_${code}`);
             if (reward) {
-                user.keys += parseInt(reward);
+                user.coins += parseInt(reward);
                 saveUser();
-                alert(`Промокод активирован! Получено ${reward} ключей`);
+                alert(`Промокод активирован! Получено ${reward} монет`);
                 showProfile();
             } else {
                 alert('Недействительный промокод');
             }
             document.getElementById('promo-code-input').value = '';
-        }
-
-        function withdrawPrizes() {
-            if (user.prizes.length > 0) {
-                alert(`Призы отправлены на вывод: ${user.prizes.map(p => p.name).join(', ')}`);
-                user.prizes = [];
-                saveUser();
-                updateProfile();
-            } else {
-                alert('Нет призов для вывода');
-            }
-        }
-
-        function getRandomPrize() {
-            const rand = Math.random();
-            let cumulative = 0;
-            for (const prize of prizes) {
-                cumulative += prize.probability;
-                if (rand <= cumulative) {
-                    return prize;
-                }
-            }
-            return prizes[0];
         }
 
         // Crash Game Logic
@@ -609,11 +589,11 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        let elytra = new Image();
-        elytra.src = 'https://minecraft.wiki/images/Elytra_JE2_BE2.png';
-        elytra.onerror = () => {
-            console.error('Failed to load elytra image');
-            elytra.src = 'https://via.placeholder.com/100?text=Elytra';
+        let rocket = new Image();
+        rocket.src = 'https://img.icons8.com/?size=100&id=11031&format=png';
+        rocket.onerror = () => {
+            console.error('Failed to load rocket image');
+            rocket.src = 'https://via.placeholder.com/100?text=Rocket';
         };
 
         function drawGame(multiplier, crashed) {
@@ -624,15 +604,15 @@
 
                 const yPos = canvas.height - (multiplier * 50);
                 const xPos = canvas.width / 2 - 50;
-                if (elytra.complete && !crashed) {
-                    ctx.drawImage(elytra, xPos, yPos, 100, 100);
+                if (rocket.complete && !crashed) {
+                    ctx.drawImage(rocket, xPos, yPos, 100, 100);
                 }
 
                 ctx.beginPath();
                 ctx.moveTo(0, canvas.height);
                 for (let x = 0; x < canvas.width; x++) {
                     const t = x / canvas.width * multiplier;
-                    ctx.lineTo(x, canvas.height - (Math.pow(t, 2) * 50));
+                    ctx.lineTo(x, canvas.height - (t * 50));
                 }
                 ctx.strokeStyle = '#4a90e2';
                 ctx.lineWidth = 3;
@@ -645,8 +625,8 @@
         function placeBet() {
             if (!user || gameState.isRunning) return;
             const bet = parseInt(betInput.value);
-            if (isNaN(bet) || bet <= 0 || bet > user.keys) {
-                alert('Недействительная ставка или недостаточно ключей');
+            if (isNaN(bet) || bet <= 0 || bet > user.coins) {
+                alert('Недействительная ставка или недостаточно монет');
                 return;
             }
             gameState.bet = bet;
@@ -654,7 +634,7 @@
             gameState.multiplier = 1;
             gameState.hasCashedOut = false;
             gameState.crashed = false;
-            user.keys -= bet;
+            user.coins -= bet;
             saveUser();
             updateProfile();
             betBtn.disabled = true;
@@ -667,11 +647,9 @@
             gameState.hasCashedOut = true;
             gameState.isRunning = false;
             const winnings = Math.floor(gameState.bet * gameState.multiplier);
-            user.keys += winnings;
-            const prize = getRandomPrize();
-            user.prizes.push(prize);
+            user.coins += winnings;
             saveUser();
-            document.getElementById('result-text').textContent = `Вы выиграли ${winnings} ключей и ${prize.name}!`;
+            document.getElementById('result-text').textContent = `Вы выиграли ${winnings} монет на ${gameState.multiplier.toFixed(2)}x!`;
             document.getElementById('result-window').classList.add('active');
             betBtn.disabled = false;
             cashoutBtn.disabled = true;
@@ -690,7 +668,7 @@
             function animate() {
                 if (!gameState.isRunning || gameState.hasCashedOut) return;
                 const elapsed = (Date.now() - startTime) / 1000;
-                gameState.multiplier = 1 + Math.pow(elapsed, 2) * 0.5;
+                gameState.multiplier = 1 + elapsed * 0.2; // Slower linear growth
                 multiplierDisplay.textContent = `${gameState.multiplier.toFixed(2)}x`;
 
                 if (gameState.multiplier >= crashPoint) {
@@ -698,7 +676,7 @@
                     gameState.crashed = true;
                     betBtn.disabled = false;
                     cashoutBtn.disabled = true;
-                    document.getElementById('result-text').textContent = `Краш на ${gameState.multiplier.toFixed(2)}x! Вы потеряли ${gameState.bet} ключей.`;
+                    document.getElementById('result-text').textContent = `Краш на ${gameState.multiplier.toFixed(2)}x! Вы потеряли ${gameState.bet} монет.`;
                     document.getElementById('result-window').classList.add('active');
                     drawGame(gameState.multiplier, true);
                     return;
@@ -719,11 +697,11 @@
         // Particle Effect
         function createParticles() {
             const particlesDiv = document.getElementById('particles');
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 15; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = `${Math.random() * 100}%`;
-                particle.style.animationDelay = `${Math.random() * 8}s`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
                 particlesDiv.appendChild(particle);
             }
         }
