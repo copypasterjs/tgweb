@@ -17,19 +17,70 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+            background: linear-gradient(135deg, #1a1a1a, #2c2c2c, #0a3d62);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
             font-family: 'Orbitron', sans-serif;
             overflow: auto;
+            color: #fff;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .container {
             text-align: center;
-            padding: 20px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1200px;
         }
 
-        .open-case-btn {
-            padding: 20px 40px;
-            font-size: 24px;
+        .main-menu, .profile, .admin-menu {
+            display: none;
+        }
+
+        .main-menu.active, .profile.active, .admin-menu.active {
+            display: block;
+        }
+
+        .case-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .case-item {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .case-item:hover {
+            transform: scale(1.05);
+        }
+
+        .case-item img {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .case-item p {
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+        .open-case-btn, .nav-btn, .promo-btn, .withdraw-btn, .admin-btn {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
             font-weight: bold;
             text-transform: uppercase;
             color: #fff;
@@ -37,31 +88,26 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 30px;
+            margin: 0.5rem;
         }
 
-        .open-case-btn:hover {
+        .open-case-btn:hover, .nav-btn:hover, .promo-btn:hover, .withdraw-btn:hover, .admin-btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(255, 0, 255, 0.8);
-        }
-
-        .open-case-btn:active {
-            transform: scale(0.95);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
         }
 
         .prizes-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            max-width: 800px;
-            margin: 0 auto;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .prize-item {
             background: rgba(0, 0, 0, 0.7);
-            padding: 15px;
+            padding: 1rem;
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
@@ -75,13 +121,12 @@
         .prize-item img {
             width: 80px;
             height: 80px;
-            margin-bottom: 10px;
+            margin-bottom: 0.5rem;
             filter: drop-shadow(0 0 10px #ff00ff);
         }
 
         .prize-item p {
-            color: #fff;
-            font-size: 16px;
+            font-size: 1rem;
             text-shadow: 0 0 5px #00ffff;
         }
 
@@ -104,42 +149,55 @@
             overflow: hidden;
         }
 
-        .case {
-            width: 300px;
-            height: 300px;
-            background: url('https://via.placeholder.com/300?text=Case') center/cover;
+        .case-roller {
+            width: 80%;
+            max-width: 1000px;
+            height: 200px;
+            overflow: hidden;
             position: relative;
-            animation: openCase 4s ease-in-out forwards;
             border: 2px solid #00ffff;
-            border-radius: 20px;
+            border-radius: 10px;
             box-shadow: 0 0 50px rgba(0, 255, 255, 0.7);
         }
 
-        .flash {
+        .roller-items {
+            display: flex;
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
-            opacity: 0;
-            animation: flashEffect 1s ease-in-out infinite alternate;
+            animation: roll 5s ease-in-out forwards;
         }
 
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            overflow: hidden;
+        .roller-item {
+            width: 150px;
+            height: 150px;
+            margin: 25px 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .particle {
+        .roller-item img {
+            width: 100px;
+            height: 100px;
+            filter: drop-shadow(0 0 10px #ff00ff);
+        }
+
+        .marker {
             position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: 10px;
-            height: 10px;
-            background: #00ffff;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: particleBurst 2s ease-out forwards;
+            height: 200px;
+            background: #ff00ff;
+            opacity: 0.7;
+        }
+
+        @keyframes roll {
+            0% { transform: translateX(0); }
+            80% { transform: translateX(calc(-150px * 20)); }
+            100% { transform: translateX(calc(-150px * 20 + 75px)); }
         }
 
         .result-window {
@@ -157,10 +215,10 @@
 
         .result-container {
             background: rgba(0, 0, 0, 0.9);
-            padding: 40px;
+            padding: 2rem;
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
         }
 
         .result-item {
@@ -169,256 +227,371 @@
         }
 
         .result-item img {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             filter: drop-shadow(0 0 20px #ff00ff);
         }
 
         .result-text {
-            margin-top: 20px;
-            font-size: 36px;
+            margin-top: 1rem;
+            font-size: 2rem;
             font-weight: bold;
-            color: #fff;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 30px #ff00ff;
-            opacity: 0;
+            text-shadow: 0 0 10px #ff00ff;
             animation: revealText 1.5s ease-in 0.5s forwards;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        @keyframes openCase {
-            0% {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-            20% {
-                transform: scale(1.1) rotate(5deg);
-                opacity: 0.9;
-            }
-            40% {
-                transform: scale(1.05) rotate(-5deg);
-                opacity: 0.85;
-            }
-            60% {
-                transform: scale(1.2) rotate(10deg);
-                opacity: 0.8;
-            }
-            80% {
-                transform: scale(1.1) rotate(-10deg);
-                opacity: 0.6;
-            }
-            100% {
-                transform: scale(0.8) rotate(0deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes flashEffect {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 0.5;
-            }
-        }
-
-        @keyframes particleBurst {
-            0% {
-                transform: translate(0, 0);
-                opacity: 0.8;
-            }
-            100% {
-                transform: translate(calc(100px * var(--x)), calc(100px * var(--y)));
-                opacity: 0;
-            }
         }
 
         @keyframes revealItem {
-            0% {
-                opacity: 0;
-                transform: scale(0) rotate(0deg);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.5) rotate(180deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) rotate(360deg);
-            }
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         @keyframes revealText {
-            0% {
-                opacity: 0;
-                transform: scale(0);
-            }
-            50% {
-                opacity: 0.7;
-                transform: scale(1.2);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
-        .close-btn, .menu-btn {
-            padding: 10px 20px;
-            font-size: 18px;
-            color: #fff;
-            background: #ff00ff;
-            border: none;
+        .profile-info, .admin-form {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
             border-radius: 10px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            margin: 10px;
+            margin: 2rem 0;
         }
 
-        .close-btn:hover, .menu-btn:hover {
-            transform: scale(1.1);
+        .profile-info p, .admin-form label {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+        .admin-form input, .promo-input {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+            margin: 0.5rem;
+            width: calc(100% - 1rem);
         }
 
         .button-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             display: flex;
-            gap: 10px;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .open-case-btn, .nav-btn, .promo-btn, .withdraw-btn, .admin-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .case-item img {
+                max-width: 100px;
+            }
+
+            .case-roller {
+                height: 150px;
+            }
+
+            .roller-item {
+                width: 100px;
+                height: 100px;
+                margin: 25px 5px;
+            }
+
+            .roller-item img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .result-item img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .result-text {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .case-selection {
+                grid-template-columns: 1fr;
+            }
+
+            .case-item p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="main-container">
-        <button class="open-case-btn">Открыть кейс</button>
-        <div class="prizes-list">
-            <div class="prize-item">
-                <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" alt="Незеритовый меч">
-                <p>Незеритовый меч<br><span class="chance">10%</span></p>
+    <div class="container">
+        <!-- Main Menu -->
+        <div class="main-menu active" id="main-menu">
+            <h1>Выберите кейс</h1>
+            <div class="case-selection">
+                <div class="case-item" data-case="basic">
+                    <img src="https://via.placeholder.com/150?text=Basic+Case" alt="Basic Case">
+                    <p>Базовый кейс</p>
+                </div>
+                <div class="case-item" data-case="premium">
+                    <img src="https://via.placeholder.com/150?text=Premium+Case" alt="Premium Case">
+                    <p>Премиум кейс</p>
+                </div>
+                <div class="case-item" data-case="elite">
+                    <img src="https://via.placeholder.com/150?text=Elite+Case" alt="Elite Case">
+                    <p>Элитный кейс</p>
+                </div>
             </div>
-            <div class="prize-item">
-                <img src="https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png" alt="Зачарованные яблоки">
-                <p>Зачарованные яблоки<br><span class="chance">20%</span></p>
-            </div>
-            <div class="prize-item">
-                <img src="https://minecraft.wiki/images/Netherite_Pickaxe_JE3.png" alt="Зачарованная кирка">
-                <p>Зачарованная кирка<br><span class="chance">50%</span></p>
-            </div>
-            <div class="prize-item">
-                <img src="https://minecraft.wiki/images/Elytra_JE2_BE2.png" alt="Элитры">
-                <p>Элитры<br><span class="chance">5%</span></p>
-            </div>
-            <div class="prize-item">
-                <img src="https://minecraft.wiki/images/Totem_of_Undying_JE2_BE2.png" alt="Тотем бессмертия">
-                <p>Тотем бессмертия<br><span class="chance">5%</span></p>
-            </div>
-            <div class="prize-item">
-                <img src="https://minecraft.wiki/images/Netherite_Chestplate_JE2_BE1.png" alt="Незеритовая броня">
-                <p>Незеритовая броня<br><span class="chance">3%</span></p>
-            </div>
-            <div class="prize-item">
-                <img src="https://minecraft.wiki/images/Beacon_JE7_BE2.png" alt="Маяк">
-                <p>Маяк<br><span class="chance">3%</span></p>
-            </div>
-            <div class="prize-item">
-                <img src="https://minecraft.wiki/images/Trident_JE3_BE2.png" alt="Трезубец">
-                <p>Трезубец<br><span class="chance">2%</span></p>
-            </div>
-            <div class="prize-item">
-                <img src="https://minecraft.wiki/images/Crossbow_JE3_BE2.png" alt="Арбалет">
-                <p>Арбалет<br><span class="chance">1%</span></p>
-            </div>
-            <div class="prize-item">
-                <img src="https://minecraft.wiki/images/Nether_Star_JE2_BE2.gif" alt="Звезда Незера">
-                <p>Звезда Незера<br><span class="chance">1%</span></p>
+            <div class="button-container">
+                <button class="nav-btn" onclick="showProfile()">Профиль</button>
+                <button class="promo-btn" onclick="showPromo()">Промокод</button>
             </div>
         </div>
-    </div>
-    <div class="case-animation" id="case-animation">
-        <div class="case">
-            <div class="flash"></div>
-            <div class="particles">
-                <div class="particle" style="--x: 1; --y: 1;"></div>
-                <div class="particle" style="--x: -1; --y: 1;"></div>
-                <div class="particle" style="--x: 1; --y: -1;"></div>
-                <div class="particle" style="--x: -1; --y: -1;"></div>
-                <div class="particle" style="--x: 0.5; --y: 0.5;"></div>
-                <div class="particle" style="--x: -0.5; --y: 0.5;"></div>
-                <div class="particle" style="--x: 0.5; --y: -0.5;"></div>
-                <div class="particle" style="--x: -0.5; --y: -0.5;"></div>
+
+        <!-- Profile Section -->
+        <div class="profile" id="profile">
+            <h1>Профиль</h1>
+            <div class="profile-info">
+                <p>Ник: <span id="username">Player1</span></p>
+                <p>Сервер: <span id="server">EU</span></p>
+                <p>Донат: <span id="donation">VIP</span></p>
+                <p>Ключи: <span id="keys">5</span></p>
+            </div>
+            <h2>Мои призы</h2>
+            <div class="prizes-list" id="my-prizes"></div>
+            <button class="withdraw-btn" onclick="withdrawPrizes()">Вывести призы</button>
+            <div class="button-container">
+                <button class="nav-btn" onclick="showMainMenu()">Назад в меню</button>
+                <button class="admin-btn" id="admin-btn" onclick="showAdminMenu()">Админ-панель</button>
             </div>
         </div>
-    </div>
-    <div class="result-window" id="result-window">
-        <div class="button-container">
-            <button class="close-btn">Закрыть</button>
-            <button class="menu-btn">Назад в меню</button>
-        </div>
-        <div class="result-container">
-            <div class="result-item" id="result-item">
-                <img id="prize-img" src="" alt="Prize">
+
+        <!-- Admin Menu -->
+        <div class="admin-menu" id="admin-menu">
+            <h1>Админ-панель</h1>
+            <div class="admin-form">
+                <label for="promo-code">Создать промокод:</label>
+                <input type="text" id="promo-code" placeholder="Введите промокод">
+                <label for="promo-reward">Награда (ключи):</label>
+                <input type="number" id="promo-reward" placeholder="Количество ключей">
+                <button class="admin-btn" onclick="createPromoCode()">Создать</button>
             </div>
-            <div class="result-text" id="result-text">Ваш выигрыш: </div>
+            <button class="nav-btn" onclick="showProfile()">Назад в профиль</button>
+        </div>
+
+        <!-- Case Animation -->
+        <div class="case-animation" id="case-animation">
+            <div class="case-roller">
+                <div class="roller-items" id="roller-items"></div>
+                <div class="marker"></div>
+            </div>
+        </div>
+
+        <!-- Result Window -->
+        <div class="result-window" id="result-window">
+            <div class="button-container">
+                <button class="nav-btn" onclick="closeResult()">Закрыть</button>
+                <button class="nav-btn" onclick="showMainMenu()">Назад в меню</button>
+            </div>
+            <div class="result-container">
+                <div class="result-item" id="result-item">
+                    <img id="prize-img" src="" alt="Prize">
+                </div>
+                <div class="result-text" id="result-text">Ваш выигрыш: </div>
+            </div>
+        </div>
+
+        <!-- Promo Code Input -->
+        <div class="promo-input" id="promo-input" style="display: none;">
+            <h2>Введите промокод</h2>
+            <input type="text" id="promo-code-input" placeholder="Промокод">
+            <button class="promo-btn" onclick="redeemPromoCode()">Активировать</button>
+            <button class="nav-btn" onclick="showMainMenu()">Назад</button>
         </div>
     </div>
 
     <script>
         const prizes = [
             { name: 'Незеритовый меч', probability: 0.10, image: 'https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png' },
-            { name: 'Зачарованные яблоки', probability: 0.20, image: 'https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png' },
+            { name: 'Зачарованные яблоки', probability: 0.20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1M2tIRxiAztsdnxeEZo_gFlE-jayikueWgTDT3gqlPbQE-5LXb4m4MxqfztwFMTMUN4E&usqp=CAU' },
             { name: 'Зачарованная кирка', probability: 0.50, image: 'https://minecraft.wiki/images/Netherite_Pickaxe_JE3.png' },
             { name: 'Элитры', probability: 0.05, image: 'https://minecraft.wiki/images/Elytra_JE2_BE2.png' },
             { name: 'Тотем бессмертия', probability: 0.05, image: 'https://minecraft.wiki/images/Totem_of_Undying_JE2_BE2.png' },
             { name: 'Незеритовая броня', probability: 0.03, image: 'https://minecraft.wiki/images/Netherite_Chestplate_JE2_BE1.png' },
-            { name: 'Маяк', probability: 0.03, image: 'https://minecraft.wiki/images/Beacon_JE7_BE2.png' },
-            { name: 'Трезубец', probability: 0.02, image: 'https://minecraft.wiki/images/Trident_JE3_BE2.png' },
-            { name: 'Арбалет', probability: 0.01, image: 'https://minecraft.wiki/images/Crossbow_JE3_BE2.png' },
-            { name: 'Звезда Незера', probability: 0.01, image: 'https://minecraft.wiki/images/Nether_Star_JE2_BE2.gif' }
+            { name: 'Маяк', probability: 0.03, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3WDlKcHzz3RAeC3tGHADeNknGs3PjVkFuNA&s' },
+            { name: 'Трезубец', probability: 0.02, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTneakchPTkPR4ikw9eoEdrniIFJpRg6ynqrg&s' },
+            { name: 'Арбалет', probability: 0.01, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiehLBdEHvhy3wt4vl4cIfyUBIegKOXXeiTg&s' },
+            { name: 'Звезда Незера', probability: 0.01, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1Mm-gsY85PgbWwAF4V5IEOJpzmabL74DZjg&s' }
         ];
 
-        function getRandomPrize() {
+        const cases = {
+            basic: prizes.slice(0, 5),
+            premium: prizes.slice(2, 8),
+            elite: prizes.slice(5, 10)
+        };
+
+        let user = {
+            username: 'Player1',
+            server: 'EU',
+            donation: 'VIP',
+            keys: 5,
+            prizes: [],
+            isAdmin: true
+        };
+
+        function saveUser() {
+            localStorage.setItem('user', JSON.stringify(user));
+        }
+
+        function loadUser() {
+            const saved = localStorage.getItem('user');
+            if (saved) {
+                user = JSON.parse(saved);
+            }
+            updateProfile();
+        }
+
+        function updateProfile() {
+            document.getElementById('username').textContent = user.username;
+            document.getElementById('server').textContent = user.server;
+            document.getElementById('donation').textContent = user.donation;
+            document.getElementById('keys').textContent = user.keys;
+            document.getElementById('admin-btn').style.display = user.isAdmin ? 'block' : 'none';
+            const myPrizes = document.getElementById('my-prizes');
+            myPrizes.innerHTML = '';
+            user.prizes.forEach(prize => {
+                const div = document.createElement('div');
+                div.className = 'prize-item';
+                div.innerHTML = `<img src="${prize.image}" alt="${prize.name}"><p>${prize.name}</p>`;
+                myPrizes.appendChild(div);
+            });
+        }
+
+        function getRandomPrize(caseType) {
+            const casePrizes = cases[caseType];
             const rand = Math.random();
             let cumulative = 0;
-            for (const prize of prizes) {
+            for (const prize of casePrizes) {
                 cumulative += prize.probability;
                 if (rand <= cumulative) {
                     return prize;
                 }
             }
-            return prizes[0]; // Fallback
+            return casePrizes[0];
         }
 
-        const openBtn = document.querySelector('.open-case-btn');
-        const mainContainer = document.querySelector('#main-container');
-        const caseAnimation = document.querySelector('#case-animation');
-        const resultWindow = document.querySelector('#result-window');
-        const closeBtn = document.querySelector('.close-btn');
-        const menuBtn = document.querySelector('.menu-btn');
-        const prizeImg = document.querySelector('#prize-img');
-        const resultText = document.querySelector('#result-text');
+        function showMainMenu() {
+            document.querySelectorAll('.container > div').forEach(div => div.classList.remove('active'));
+            document.getElementById('main-menu').classList.add('active');
+        }
 
-        openBtn.addEventListener('click', () => {
-            mainContainer.style.display = 'none';
+        function showProfile() {
+            updateProfile();
+            document.querySelectorAll('.container > div').forEach(div => div.classList.remove('active'));
+            document.getElementById('profile').classList.add('active');
+        }
+
+        function showAdminMenu() {
+            document.querySelectorAll('.container > div').forEach(div => div.classList.remove('active'));
+            document.getElementById('admin-menu').classList.add('active');
+        }
+
+        function showPromo() {
+            document.querySelectorAll('.container > div').forEach(div => div.classList.remove('active'));
+            document.getElementById('promo-input').style.display = 'block';
+        }
+
+        function createPromoCode() {
+            const code = document.getElementById('promo-code').value;
+            const reward = parseInt(document.getElementById('promo-reward').value);
+            if (code && reward > 0) {
+                localStorage.setItem(`promo_${code}`, reward);
+                alert(`Промокод ${code} создан с наградой ${reward} ключей`);
+                document.getElementById('promo-code').value = '';
+                document.getElementById('promo-reward').value = '';
+            } else {
+                alert('Введите действительный промокод и награду');
+            }
+        }
+
+        function redeemPromoCode() {
+            const code = document.getElementById('promo-code-input').value;
+            const reward = localStorage.getItem(`promo_${code}`);
+            if (reward) {
+                user.keys += parseInt(reward);
+                saveUser();
+                alert(`Промокод активирован! Получено ${reward} ключей`);
+                showMainMenu();
+            } else {
+                alert('Недействительный промокод');
+            }
+            document.getElementById('promo-code-input').value = '';
+        }
+
+        function withdrawPrizes() {
+            if (user.prizes.length > 0) {
+                alert(`Призы отправлены на вывод: ${user.prizes.map(p => p.name).join(', ')}`);
+                user.prizes = [];
+                saveUser();
+                updateProfile();
+            } else {
+                alert('Нет призов для вывода');
+            }
+        }
+
+        function startCaseAnimation(caseType) {
+            if (user.keys <= 0) {
+                alert('Недостаточно ключей!');
+                return;
+            }
+            user.keys--;
+            saveUser();
+            document.querySelectorAll('.container > div').forEach(div => div.classList.remove('active'));
+            const caseAnimation = document.getElementById('case-animation');
+            const rollerItems = document.getElementById('roller-items');
+            rollerItems.innerHTML = '';
+            const casePrizes = cases[caseType];
+            for (let i = 0; i < 30; i++) {
+                const prize = casePrizes[Math.floor(Math.random() * casePrizes.length)];
+                const div = document.createElement('div');
+                div.className = 'roller-item';
+                div.innerHTML = `<img src="${prize.image}" alt="${prize.name}">`;
+                rollerItems.appendChild(div);
+            }
             caseAnimation.style.display = 'flex';
             setTimeout(() => {
                 caseAnimation.style.display = 'none';
-                resultWindow.style.display = 'flex';
-                const prize = getRandomPrize();
-                prizeImg.src = prize.image;
-                prizeImg.alt = prize.name;
-                resultText.textContent = `Ваш выигрыш: ${prize.name}`;
-            }, 4000); // Show result window after 4 seconds
+                const prize = getRandomPrize(caseType);
+                user.prizes.push(prize);
+                saveUser();
+                document.getElementById('prize-img').src = prize.image;
+                document.getElementById('prize-img').alt = prize.name;
+                document.getElementById('result-text').textContent = `Ваш выигрыш: ${prize.name}`;
+                document.getElementById('result-window').style.display = 'flex';
+            }, 6000);
+        }
+
+        function closeResult() {
+            document.getElementById('result-window').style.display = 'none';
+            showMainMenu();
+        }
+
+        document.querySelectorAll('.case-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const caseType = item.dataset.case;
+                startCaseAnimation(caseType);
+            });
         });
 
-        closeBtn.addEventListener('click', () => {
-            resultWindow.style.display = 'none';
-            mainContainer.style.display = 'block';
-        });
-
-        menuBtn.addEventListener('click', () => {
-            resultWindow.style.display = 'none';
-            mainContainer.style.display = 'block';
-        });
+        loadUser();
     </script>
 </body>
 </html>
